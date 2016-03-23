@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.CoursegroupMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.Coursegroup" >
+    <id column="cgid" property="cgid" jdbcType="VARCHAR" />
+    <result column="kczmc" property="kczmc" jdbcType="VARCHAR" />
+    <result column="kczz" property="kczz" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    cgid, kczmc, kczz
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.CoursegroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from coursegroup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from coursegroup
+    where cgid = #{cgid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from coursegroup
+    where cgid = #{cgid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.CoursegroupExample" >
+    delete from coursegroup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.Coursegroup" >
+    insert into coursegroup (cgid, kczmc, kczz
+      )
+    values (#{cgid,jdbcType=VARCHAR}, #{kczmc,jdbcType=VARCHAR}, #{kczz,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.Coursegroup" >
+    insert into coursegroup
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cgid != null" >
+        cgid,
+      </if>
+      <if test="kczmc != null" >
+        kczmc,
+      </if>
+      <if test="kczz != null" >
+        kczz,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cgid != null" >
+        #{cgid,jdbcType=VARCHAR},
+      </if>
+      <if test="kczmc != null" >
+        #{kczmc,jdbcType=VARCHAR},
+      </if>
+      <if test="kczz != null" >
+        #{kczz,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.CoursegroupExample" resultType="java.lang.Integer" >
+    select count(*) from coursegroup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update coursegroup
+    <set >
+      <if test="record.cgid != null" >
+        cgid = #{record.cgid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kczmc != null" >
+        kczmc = #{record.kczmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kczz != null" >
+        kczz = #{record.kczz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update coursegroup
+    set cgid = #{record.cgid,jdbcType=VARCHAR},
+      kczmc = #{record.kczmc,jdbcType=VARCHAR},
+      kczz = #{record.kczz,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.Coursegroup" >
+    update coursegroup
+    <set >
+      <if test="kczmc != null" >
+        kczmc = #{kczmc,jdbcType=VARCHAR},
+      </if>
+      <if test="kczz != null" >
+        kczz = #{kczz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cgid = #{cgid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.Coursegroup" >
+    update coursegroup
+    set kczmc = #{kczmc,jdbcType=VARCHAR},
+      kczz = #{kczz,jdbcType=VARCHAR}
+    where cgid = #{cgid,jdbcType=VARCHAR}
+  </update>
+</mapper>

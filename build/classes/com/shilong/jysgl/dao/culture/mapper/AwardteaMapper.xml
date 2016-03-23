@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.AwardteaMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.Awardtea" >
+    <id column="taid" property="taid" jdbcType="VARCHAR" />
+    <result column="teaid" property="teaid" jdbcType="VARCHAR" />
+    <result column="jxmc" property="jxmc" jdbcType="VARCHAR" />
+    <result column="bfdw" property="bfdw" jdbcType="VARCHAR" />
+    <result column="hjsj" property="hjsj" jdbcType="DATE" />
+    <result column="hjjb" property="hjjb" jdbcType="VARCHAR" />
+    <result column="shzt" property="shzt" jdbcType="VARCHAR" />
+    <result column="jxshyj" property="jxshyj" jdbcType="VARCHAR" />
+    <result column="fj" property="fj" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    taid, teaid, jxmc, bfdw, hjsj, hjjb, shzt, jxshyj, fj
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.AwardteaExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from awardtea
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from awardtea
+    where taid = #{taid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from awardtea
+    where taid = #{taid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.AwardteaExample" >
+    delete from awardtea
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.Awardtea" >
+    insert into awardtea (taid, teaid, jxmc, 
+      bfdw, hjsj, hjjb, shzt, 
+      jxshyj, fj)
+    values (#{taid,jdbcType=VARCHAR}, #{teaid,jdbcType=VARCHAR}, #{jxmc,jdbcType=VARCHAR}, 
+      #{bfdw,jdbcType=VARCHAR}, #{hjsj,jdbcType=DATE}, #{hjjb,jdbcType=VARCHAR}, #{shzt,jdbcType=VARCHAR}, 
+      #{jxshyj,jdbcType=VARCHAR}, #{fj,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.Awardtea" >
+    insert into awardtea
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taid != null" >
+        taid,
+      </if>
+      <if test="teaid != null" >
+        teaid,
+      </if>
+      <if test="jxmc != null" >
+        jxmc,
+      </if>
+      <if test="bfdw != null" >
+        bfdw,
+      </if>
+      <if test="hjsj != null" >
+        hjsj,
+      </if>
+      <if test="hjjb != null" >
+        hjjb,
+      </if>
+      <if test="shzt != null" >
+        shzt,
+      </if>
+      <if test="jxshyj != null" >
+        jxshyj,
+      </if>
+      <if test="fj != null" >
+        fj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taid != null" >
+        #{taid,jdbcType=VARCHAR},
+      </if>
+      <if test="teaid != null" >
+        #{teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="jxmc != null" >
+        #{jxmc,jdbcType=VARCHAR},
+      </if>
+      <if test="bfdw != null" >
+        #{bfdw,jdbcType=VARCHAR},
+      </if>
+      <if test="hjsj != null" >
+        #{hjsj,jdbcType=DATE},
+      </if>
+      <if test="hjjb != null" >
+        #{hjjb,jdbcType=VARCHAR},
+      </if>
+      <if test="shzt != null" >
+        #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="jxshyj != null" >
+        #{jxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="fj != null" >
+        #{fj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.AwardteaExample" resultType="java.lang.Integer" >
+    select count(*) from awardtea
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update awardtea
+    <set >
+      <if test="record.taid != null" >
+        taid = #{record.taid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teaid != null" >
+        teaid = #{record.teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jxmc != null" >
+        jxmc = #{record.jxmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bfdw != null" >
+        bfdw = #{record.bfdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hjsj != null" >
+        hjsj = #{record.hjsj,jdbcType=DATE},
+      </if>
+      <if test="record.hjjb != null" >
+        hjjb = #{record.hjjb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shzt != null" >
+        shzt = #{record.shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jxshyj != null" >
+        jxshyj = #{record.jxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fj != null" >
+        fj = #{record.fj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update awardtea
+    set taid = #{record.taid,jdbcType=VARCHAR},
+      teaid = #{record.teaid,jdbcType=VARCHAR},
+      jxmc = #{record.jxmc,jdbcType=VARCHAR},
+      bfdw = #{record.bfdw,jdbcType=VARCHAR},
+      hjsj = #{record.hjsj,jdbcType=DATE},
+      hjjb = #{record.hjjb,jdbcType=VARCHAR},
+      shzt = #{record.shzt,jdbcType=VARCHAR},
+      jxshyj = #{record.jxshyj,jdbcType=VARCHAR},
+      fj = #{record.fj,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.Awardtea" >
+    update awardtea
+    <set >
+      <if test="teaid != null" >
+        teaid = #{teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="jxmc != null" >
+        jxmc = #{jxmc,jdbcType=VARCHAR},
+      </if>
+      <if test="bfdw != null" >
+        bfdw = #{bfdw,jdbcType=VARCHAR},
+      </if>
+      <if test="hjsj != null" >
+        hjsj = #{hjsj,jdbcType=DATE},
+      </if>
+      <if test="hjjb != null" >
+        hjjb = #{hjjb,jdbcType=VARCHAR},
+      </if>
+      <if test="shzt != null" >
+        shzt = #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="jxshyj != null" >
+        jxshyj = #{jxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="fj != null" >
+        fj = #{fj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where taid = #{taid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.Awardtea" >
+    update awardtea
+    set teaid = #{teaid,jdbcType=VARCHAR},
+      jxmc = #{jxmc,jdbcType=VARCHAR},
+      bfdw = #{bfdw,jdbcType=VARCHAR},
+      hjsj = #{hjsj,jdbcType=DATE},
+      hjjb = #{hjjb,jdbcType=VARCHAR},
+      shzt = #{shzt,jdbcType=VARCHAR},
+      jxshyj = #{jxshyj,jdbcType=VARCHAR},
+      fj = #{fj,jdbcType=VARCHAR}
+    where taid = #{taid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.BookMapperCustom" >
+
+	<sql id="book_query_where">
+		<if test="bookCustom!=null">
+			<if test="bookCustom.zzmc!=null and bookCustom.zzmc!=''">
+				and book.zzmc like '%${bookCustom.zzmc}%'
+			</if>
+			<if test="bookCustom.cbs!=null and bookCustom.cbs!=''">
+				and book.cbs like '%${bookCustom.cbs}%'
+			</if>
+			<if test="bookCustom.cbsj_start!=null">
+				and book.cbsj > #{bookCustom.cbsj_start}
+			</if>
+			<if test="bookCustom.cbsj_end!=null">
+				and book.cbsj <![CDATA[ < ]]> #{bookCustom.cbsj_end}
+			</if>
+			<if test="bookCustom.shzt!=null and bookCustom.shzt!=''">
+				and book.shzt = #{bookCustom.shzt}
+			</if>
+		
+			
+		</if>
+		
+			<if test="teacherCustom!=null">
+			 <if test="teacherCustom.smwc!=null and teacherCustom.smwc!=''">
+ 		 			and tea_book.smwc = #{teacherCustom.smwc}
+ 		 	</if>
+		</if>
+	</sql>
+
+  	<select id="findBookList" parameterType="com.shilong.jysgl.pojo.vo.BookQueryVo" resultType="com.shilong.jysgl.pojo.vo.BookCustom">
+  			select distinct book.bid,book.zzmc,book.cbs,book.cbsj,book.shzt,book.zzshyj,
+  			(select dictinfo from dictinfo where dictinfo.dictcode=book.shzt) shztmc
+  			from
+  			teacher,book,tea_book
+  			where teacher.teaid=tea_book.teaid
+  			and book.bid=tea_book.bid
+  			<include refid="book_query_where"/>
+  			<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+  		<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+  	</select>
+  	
+  	<select id="findBookCount" parameterType="com.shilong.jysgl.pojo.vo.BookQueryVo" resultType="int">
+  			select count(*) from(
+  				select distinct book.bid
+  			from
+  			teacher,book,tea_book
+  			where teacher.teaid=tea_book.teaid
+  			and book.bid=tea_book.bid
+  			
+  			<include refid="book_query_where"/>
+  			<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+  			) book_
+  			
+  	</select>
+  	
+  	  	<select id="analysisBookYearInfo" parameterType="com.shilong.jysgl.pojo.vo.BookQueryVo" resultType="map">
+  			select year(book_.cbsj) lable,count(*) data
+		from (
+		select distinct book.cbsj from
+  			teacher,book,tea_book
+  			where teacher.teaid=tea_book.teaid
+  			and book.bid=tea_book.bid
+			<include refid="book_query_where"/>
+  			<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		) book_
+		group by lable
+
+  	</select>
+  	  	<select id="analysisBookSmwcInfo" parameterType="com.shilong.jysgl.pojo.vo.BookQueryVo" resultType="map">
+  			select (select dictinfo from dictinfo where dictinfo.dictcode=tea_book.smwc) lable,count(*) data from
+  			teacher,book,tea_book
+  			where teacher.teaid=tea_book.teaid
+  			and book.bid=tea_book.bid
+			<include refid="book_query_where"/>
+  			<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+			group by lable
+
+  	</select>
+</mapper>

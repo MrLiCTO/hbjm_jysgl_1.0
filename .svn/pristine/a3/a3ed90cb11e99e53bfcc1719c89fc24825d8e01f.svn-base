@@ -1,0 +1,88 @@
+{
+   "menus" : [{"icon" : "icon-sys","menuid" : "1","menuname" : "教师信息维护","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "教师信息列表","url" : "/hbjm_jysgl_1.0/teacher/teacherlist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "导入教师信息","url" : "/hbjm_jysgl_1.0/teacher/importteacher.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "导出教师信息","url" : "/hbjm_jysgl_1.0/teacher/exportteacher.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "查看个人信息","url" : "/hbjm_jysgl_1.0/teacher/viewmyinfo.action" 
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "统计分析教师信息","url" : "/hbjm_jysgl_1.0/teacher/analysisteacherinfo.action"
+                 }] 
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "教师获奖信息管理","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "获奖信息列表","url" : "/hbjm_jysgl_1.0/awardtea/awardtealist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "获奖信息统计","url" : "/hbjm_jysgl_1.0/awardtea/analysisawardteainfo.action"
+                 }]
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "教师项目信息维护","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "项目信息列表","url" : "/hbjm_jysgl_1.0/project/projectlist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "统计项目信息","url" : "/hbjm_jysgl_1.0/project/analysisprojectinfo.action"
+                 }]
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "教师著作信息维护","url" : "","menus" : [
+                  {"icon" : "icon-log","menuid" : "1_1","menuname" : "著作信息列表","url" : "/hbjm_jysgl_1.0/book/booklist.action"
+                 }, 
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "著作信息统计","url" : "/hbjm_jysgl_1.0/book/analysisbookinfo.action"
+                 }]
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "教师论文信息维护","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "论文信息列表","url" : "/hbjm_jysgl_1.0/paper/paperlist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "论文信息统计","url" : "/hbjm_jysgl_1.0/paper/analysispaperinfo.action"
+                 }]
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "学生信息维护","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "学生信息列表","url" : "/hbjm_jysgl_1.0/student/studentlist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "导入学生信息","url" : "/hbjm_jysgl_1.0/student/importstudent.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "导出学生信息","url" : "/hbjm_jysgl_1.0/student/exportstudent.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "统计分析学生信息","url" : "/hbjm_jysgl_1.0/student/analysisstudentinfo.action"
+                 }]
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "学生获奖信息管理","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "获奖信息列表","url" : "/hbjm_jysgl_1.0/awardstu/awardstulist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "获奖信息统计","url" : "/hbjm_jysgl_1.0/awardstu/analysisawardstuinfo.action"
+                 }]
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "归口课程管理","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "课程信息列表","url" : "/hbjm_jysgl_1.0/course/courselist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "导入课程信息","url" : "/hbjm_jysgl_1.0/course/importcourse.action" 
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "导出课程信息","url" : "/hbjm_jysgl_1.0/course/exportcourse.action" 
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "课程组列表","url" : "/hbjm_jysgl_1.0/coursegroup/coursegrouplist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "统计分析课程信息","url" : "/hbjm_jysgl_1.0/course/analysiscourseinfo.action"
+                 }] 
+               },
+               {"icon" : "icon-sys","menuid" : "1","menuname" : "通用信息管理","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "教学文件列表","url" : "/hbjm_jysgl_1.0/course/queryuser.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "公告信息列表","url" : "/hbjm_jysgl_1.0/course/exportYpxx.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "规章制度列表","url" : "/hbjm_jysgl_1.0/course/businesslist.action"
+                 }] 
+               },{"icon" : "icon-sys","menuid" : "1","menuname" : "信息审核管理","url" : "","menus" : [
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "教师个人信息修改审核","url" : "/hbjm_jysgl_1.0/course/addcgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "论文信息审核","url" : "/hbjm_jysgl_1.0/course/yycgdlist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "著作信息审核","url" : "/hbjm_jysgl_1.0/course/checkyycgdlist.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "项目信息审核","url" : "/hbjm_jysgl_1.0/course/disposeyycgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "教师获奖信息审核","url" : "/hbjm_jysgl_1.0/course/receiveyycgd.action"
+                 },
+                 {"icon" : "icon-log","menuid" : "1_1","menuname" : "学生获奖信息审核","url" : "/hbjm_jysgl_1.0/course/receiveyycgd.action"
+                 }] 
+               }
+             ]
+}

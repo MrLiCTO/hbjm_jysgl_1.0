@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom" >
+	
+	<sql id="query_teacher_where">
+		<if test="teacherCustom!=null">
+			<if test="teacherCustom.xm!=null and teacherCustom.xm!=''">
+					and xm like '%${teacherCustom.xm}%'
+			</if>
+			<if test="teacherCustom.bh!=null and teacherCustom.bh!=''">
+					and bh like '%${teacherCustom.bh}%'
+			</if>
+			<if test="teacherCustom.xb!=null and teacherCustom.xb!=''">
+					and xb = #{teacherCustom.xb}
+			</if>
+			<if test="teacherCustom.js!=null and teacherCustom.js!=''">
+					and js  = #{teacherCustom.js}
+			</if>
+			<if test="teacherCustom.xy!=null and teacherCustom.xy!=''">
+					and xy = #{teacherCustom.xy}
+			</if>
+			<if test="teacherCustom.shzt!=null and teacherCustom.shzt!=''">
+					and shzt = #{teacherCustom.shzt}
+			</if>
+			<if test="teacherCustom.csrq_start!=null and teacherCustom.csrq_start!=''">
+					and csrq > #{teacherCustom.csrq_start}
+			</if>
+			<if test="teacherCustom.csrq_end!=null and teacherCustom.csrq_end!=''">
+					<![CDATA[
+					and csrq  < #{teacherCustom.csrq_end}
+					]]>
+			</if>
+			<if test="teacherCustom.zc!=null and teacherCustom.zc!=''">
+					and zc = #{teacherCustom.zc}
+			</if>
+			<if test="teacherCustom.zzxl!=null and teacherCustom.zzxl!=''">
+					and zzxl = #{teacherCustom.zzxl}
+			</if>
+			<if test="teacherCustom.zzxw!=null and teacherCustom.zzxw!=''">
+					and zzxw = #{teacherCustom.zzxw}
+			</if>
+			<if test="teacherCustom.zzmm!=null and teacherCustom.zzmm!=''">
+					and zzmm = #{teacherCustom.zzmm}
+			</if>
+			<if test="teacherCustom.zzzt!=null and teacherCustom.zzzt!=''">
+					and zzzt = #{teacherCustom.zzzt}
+			</if>
+			<if test="teacherCustom.byyx!=null and teacherCustom.byyx!=''">
+					and byyx like '%${teacherCustom.byyx}%'
+			</if>
+			<if test="teacherCustom.sxzy!=null and teacherCustom.sxzy!=''">
+					and sxzy like '%${teacherCustom.sxzy}%'
+			</if>
+			<if test="teacherCustom.yjfx!=null and teacherCustom.yjfx!=''">
+					and yjfx like '%${teacherCustom.yjfx}%'
+			</if>
+			
+			
+			
+		</if>
+	</sql>
+	
+	<select id="findTeacherList" resultType="com.shilong.jysgl.pojo.vo.TeacherCustom" parameterType="com.shilong.jysgl.pojo.vo.TeacherQueryVo">
+		select 
+		teaid,xm,bh,js,mm,xb,xy,shzt,xxshyj,csrq,
+		zc,zzxl,zzxw,byyx,sxzy,zzmm,yjfx,zzzt,
+		(select dictinfo from dictinfo where dictcode=teacher.js)jsmc,
+		(select dictinfo from dictinfo where dictcode=teacher.xb)xbmc,
+		(select dictinfo from dictinfo where dictcode=teacher.xy)xymc,
+		(select dictinfo from dictinfo where dictcode=teacher.zc)zcmc,
+		(select dictinfo from dictinfo where dictcode=teacher.zzxl)zzxlmc,
+		(select dictinfo from dictinfo where dictcode=teacher.zzxw)zzxwmc,
+		(select dictinfo from dictinfo where dictcode=teacher.zzmm)zzmmmc,
+		(select dictinfo from dictinfo where dictcode=teacher.zzzt)zzztmc,
+		(select dictinfo from dictinfo where dictcode=teacher.shzt)shztmc	
+       	from teacher
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	</select>
+	<select id="findTeacherCount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.TeacherQueryVo">
+		select count(*) from teacher
+		<where>
+			<include refid="query_teacher_where"/>
+		</where>
+	</select>
+	
+	<select id="analysisTeacherAgeInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.TeacherQueryVo">
+		select (select '青年教师' from dual) as 'lable', sum((YEAR(SYSDATE())-YEAR(csrq))>=20 AND (YEAR(SYSDATE())-YEAR(csrq)) <![CDATA[ < ]]> 35) 'data' from teacher
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		UNION ALL
+		select (select '中年教师' from dual) as 'lable', sum((YEAR(SYSDATE())-YEAR(csrq))>=35 AND (YEAR(SYSDATE())-YEAR(csrq)) <![CDATA[ < ]]> 45) 'data' from teacher
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		UNION ALL
+		select (select '中老年教师' from dual) as 'lable', sum((YEAR(SYSDATE())-YEAR(csrq))>=45 AND (YEAR(SYSDATE())-YEAR(csrq)) <![CDATA[ < ]]> 55) 'data' from teacher
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		UNION ALL
+		select (select '老年教师' from dual) as 'lable', sum((YEAR(SYSDATE())-YEAR(csrq))>=55) 'data' from teacher
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		
+	</select> 
+	
+	<select id="analysisTeacherXbInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.TeacherQueryVo">
+		SELECT (SELECT dictinfo from dictinfo WHERE dictcode=teacher.xb) lable,COUNT(*) data FROM teacher 
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		GROUP BY lable
+	</select> 
+	
+		<select id="analysisTeacherXWInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.TeacherQueryVo">
+		SELECT (SELECT dictinfo from dictinfo WHERE dictcode=teacher.zzxw) lable,COUNT(*) data FROM teacher 
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		GROUP BY lable
+	</select> 
+	
+		<select id="analysisTeacherZzmmInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.TeacherQueryVo">
+		SELECT (SELECT dictinfo from dictinfo WHERE dictcode=teacher.zzmm) lable,COUNT(*) data FROM teacher 
+		<where>
+		<include refid="query_teacher_where"/>
+		</where>
+		GROUP BY lable
+	</select> 
+
+</mapper>

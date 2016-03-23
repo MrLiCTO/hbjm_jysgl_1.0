@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.AwardstuMapperCustom" >
+  		<sql id="Query_AwardStu_where">
+		<if test="awardStuCustom!=null">
+			<if test="awardStuCustom.jxmc!=null and awardStuCustom.jxmc!=''">
+				and jxmc like '%${awardStuCustom.jxmc}%'
+			</if>
+			<if test="awardStuCustom.bfdw!=null and awardStuCustom.bfdw!=''">
+				and bfdw like '%${awardStuCustom.bfdw}%'
+			</if>
+			<if test="awardStuCustom.shzt!=null and awardStuCustom.shzt!=''">
+				and shzt = #{awardStuCustom.shzt}
+			</if>
+			<if test="awardStuCustom.hjjb!=null and awardStuCustom.hjjb!=''">
+				and hjjb = #{awardStuCustom.hjjb}
+			</if>
+			<if test="awardStuCustom.hjsj_start!=null">
+				and hjsj >= #{awardStuCustom.hjsj_start}
+			</if>
+			<if test="awardStuCustom.hjsj_end!=null">
+				and hjsj <![CDATA[ < ]]>  #{awardStuCustom.hjsj_end}
+			</if>
+			
+			<if test="awardStuCustom.teabh!=null and awardStuCustom.teabh!=''">
+				and (select bh from teacher where teacher.teaid = awardstu.teaid) like '%${awardStuCustom.teabh}%'
+			</if>
+			
+			<if test="awardStuCustom.teaxm!=null and awardStuCustom.teaxm!=''">
+				and (select xm from teacher where teacher.teaid = awardstu.teaid) like '%${awardStuCustom.teaxm}%'
+			</if>
+			
+			<if test="awardStuCustom.stubh!=null and awardStuCustom.stubh!=''">
+				and (select bh from student where student.stuid = awardstu.stuid) like '%${awardStuCustom.stubh}%'
+			</if>
+			
+			<if test="awardStuCustom.stuxm!=null and awardStuCustom.stuxm!=''">
+				and (select xm from student where student.stuid = awardstu.stuid) like '%${awardStuCustom.stuxm}%'
+			</if>
+			
+		</if>
+	</sql>
+	
+	<select id="findAwardStuList" resultType="com.shilong.jysgl.pojo.vo.AwardStuCustom" parameterType="com.shilong.jysgl.pojo.vo.AwardStuQueryVo">
+		select said,stuid,teaid,jxmc,bfdw,hjsj,hjjb,shzt,fj,
+		(select xm from teacher where teacher.teaid = awardstu.teaid) teaxm,
+		(select xm from student where student.stuid = awardstu.stuid)stuxm,
+		(select dictinfo from dictinfo where dictinfo.dictcode = awardstu.shzt) shztmc,
+		(select dictinfo from dictinfo where dictinfo.dictcode = awardstu.hjjb) hjjbmc
+			
+		from awardstu
+		
+		<where>
+			<include refid="Query_AwardStu_where"/>
+		
+		</where>
+		<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	
+	</select>
+	
+	<select id="findAwardStuCount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.AwardStuQueryVo">
+		select count(*)
+			
+		from awardstu
+		
+		<where>
+			<include refid="Query_AwardStu_where"/>
+		
+		</where>
+	</select>
+	
+	<select id="analysisAwardStuInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.AwardStuQueryVo">
+		select 
+		<choose>
+		<when test="awardStuCustom!=null and awardStuCustom.gr_by != null and awardStuCustom.gr_by !='' and awardStuCustom.gr_by =='year_gr'">
+			year(awardstu.hjsj) 
+		</when>
+		
+		<otherwise>
+			(select dictinfo from dictinfo where dictinfo.dictcode = awardstu.hjjb)
+		</otherwise>
+		</choose>
+		
+		
+		
+		lable,COUNT(*) data from awardstu
+		<where>
+			<include refid="Query_AwardStu_where"/>
+		
+		</where>
+		group by lable
+	</select>
+	
+</mapper>

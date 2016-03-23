@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.AwardteaMapperCustom" >
+	
+	<sql id="Query_AwardTea_where">
+		<if test="awardTeaCustom!=null">
+			<if test="awardTeaCustom.jxmc!=null and awardTeaCustom.jxmc!=''">
+				and jxmc like '%${awardTeaCustom.jxmc}%'
+			</if>
+			<if test="awardTeaCustom.bfdw!=null and awardTeaCustom.bfdw!=''">
+				and bfdw like '%${awardTeaCustom.bfdw}%'
+			</if>
+			<if test="awardTeaCustom.hjsj!=null">
+				and hjsj = #{awardTeaCustom.hjsj}
+			</if>
+			<if test="awardTeaCustom.shzt!=null and awardTeaCustom.shzt!=''">
+				and shzt = #{awardTeaCustom.shzt}
+			</if>
+			<if test="awardTeaCustom.hjjb!=null and awardTeaCustom.hjjb!=''">
+				and hjjb = #{awardTeaCustom.hjjb}
+			</if>
+			<if test="awardTeaCustom.hjsj_start!=null">
+				and hjsj > #{awardTeaCustom.hjsj_start}
+			</if>
+			<if test="awardTeaCustom.hjsj_end!=null">
+				and hjsj <![CDATA[ < ]]>  #{awardTeaCustom.hjsj_end}
+			</if>
+			
+			<if test="awardTeaCustom.teabh!=null and awardTeaCustom.teabh!=''">
+				and (select bh from teacher where teacher.teaid = awardtea.teaid) like '%${awardTeaCustom.teabh}%'
+			</if>
+			
+			<if test="awardTeaCustom.teaxm!=null and awardTeaCustom.teaxm!=''">
+				and (select xm from teacher where teacher.teaid = awardtea.teaid) like '%${awardTeaCustom.teaxm}%'
+			</if>
+			
+			
+		</if>
+	
+	</sql>
+	
+	<select id="findAwardteaList" resultType="com.shilong.jysgl.pojo.vo.AwardTeaCustom" parameterType="com.shilong.jysgl.pojo.vo.AwardTeaQueryVo">
+		select taid,teaid,jxmc,bfdw,hjsj,hjjb,shzt,fj,
+		(select xm from teacher where teacher.teaid = awardtea.teaid) teaxm,
+		(select dictinfo from dictinfo where dictinfo.dictcode = awardtea.shzt) shztmc,
+		(select dictinfo from dictinfo where dictinfo.dictcode = awardtea.hjjb) hjjbmc
+			
+		from awardtea
+		<where>
+			<include refid="Query_AwardTea_where"/>
+		</where>
+		<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	</select>
+	
+	<select id="findAwardteaCount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.AwardTeaQueryVo">
+		select count(*)
+			
+		from awardtea
+		<where>
+			<include refid="Query_AwardTea_where"/>
+		</where>
+	
+	</select>
+	
+	<select id="analysisAwardTeaJbInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.AwardTeaQueryVo">
+		select (SELECT dictinfo from dictinfo WHERE dictcode=awardtea.hjjb) lable,COUNT(*) data from awardtea
+		<where>
+			<include refid="Query_AwardTea_where"/>
+		</where>
+		group by lable
+	</select>
+	
+	<select id="analysisAwardTeaYearInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.AwardTeaQueryVo">
+		select year(awardtea.hjsj) lable,COUNT(*) data from awardtea
+		<where>
+			<include refid="Query_AwardTea_where"/>
+		</where>
+		group by lable
+	</select>
+</mapper>

@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.TeacherMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.Teacher" >
+    <id column="teaid" property="teaid" jdbcType="VARCHAR" />
+    <result column="xm" property="xm" jdbcType="VARCHAR" />
+    <result column="bh" property="bh" jdbcType="VARCHAR" />
+    <result column="js" property="js" jdbcType="VARCHAR" />
+    <result column="mm" property="mm" jdbcType="VARCHAR" />
+    <result column="xb" property="xb" jdbcType="VARCHAR" />
+    <result column="xy" property="xy" jdbcType="VARCHAR" />
+    <result column="shzt" property="shzt" jdbcType="VARCHAR" />
+    <result column="xxshyj" property="xxshyj" jdbcType="VARCHAR" />
+    <result column="csrq" property="csrq" jdbcType="DATE" />
+    <result column="zc" property="zc" jdbcType="VARCHAR" />
+    <result column="zzxl" property="zzxl" jdbcType="VARCHAR" />
+    <result column="zzxw" property="zzxw" jdbcType="VARCHAR" />
+    <result column="byyx" property="byyx" jdbcType="VARCHAR" />
+    <result column="sxzy" property="sxzy" jdbcType="VARCHAR" />
+    <result column="zzmm" property="zzmm" jdbcType="VARCHAR" />
+    <result column="yjfx" property="yjfx" jdbcType="VARCHAR" />
+    <result column="zzzt" property="zzzt" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    teaid, xm, bh, js, mm, xb, xy, shzt, xxshyj, csrq, zc, zzxl, zzxw, byyx, sxzy, zzmm, 
+    yjfx, zzzt
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.TeacherExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where teaid = #{teaid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from teacher
+    where teaid = #{teaid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.TeacherExample" >
+    delete from teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.Teacher" >
+    insert into teacher (teaid, xm, bh, 
+      js, mm, xb, xy, 
+      shzt, xxshyj, csrq, zc, 
+      zzxl, zzxw, byyx, sxzy, 
+      zzmm, yjfx, zzzt)
+    values (#{teaid,jdbcType=VARCHAR}, #{xm,jdbcType=VARCHAR}, #{bh,jdbcType=VARCHAR}, 
+      #{js,jdbcType=VARCHAR}, #{mm,jdbcType=VARCHAR}, #{xb,jdbcType=VARCHAR}, #{xy,jdbcType=VARCHAR}, 
+      #{shzt,jdbcType=VARCHAR}, #{xxshyj,jdbcType=VARCHAR}, #{csrq,jdbcType=DATE}, #{zc,jdbcType=VARCHAR}, 
+      #{zzxl,jdbcType=VARCHAR}, #{zzxw,jdbcType=VARCHAR}, #{byyx,jdbcType=VARCHAR}, #{sxzy,jdbcType=VARCHAR}, 
+      #{zzmm,jdbcType=VARCHAR}, #{yjfx,jdbcType=VARCHAR}, #{zzzt,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.Teacher" >
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teaid != null" >
+        teaid,
+      </if>
+      <if test="xm != null" >
+        xm,
+      </if>
+      <if test="bh != null" >
+        bh,
+      </if>
+      <if test="js != null" >
+        js,
+      </if>
+      <if test="mm != null" >
+        mm,
+      </if>
+      <if test="xb != null" >
+        xb,
+      </if>
+      <if test="xy != null" >
+        xy,
+      </if>
+      <if test="shzt != null" >
+        shzt,
+      </if>
+      <if test="xxshyj != null" >
+        xxshyj,
+      </if>
+      <if test="csrq != null" >
+        csrq,
+      </if>
+      <if test="zc != null" >
+        zc,
+      </if>
+      <if test="zzxl != null" >
+        zzxl,
+      </if>
+      <if test="zzxw != null" >
+        zzxw,
+      </if>
+      <if test="byyx != null" >
+        byyx,
+      </if>
+      <if test="sxzy != null" >
+        sxzy,
+      </if>
+      <if test="zzmm != null" >
+        zzmm,
+      </if>
+      <if test="yjfx != null" >
+        yjfx,
+      </if>
+      <if test="zzzt != null" >
+        zzzt,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teaid != null" >
+        #{teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="xm != null" >
+        #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="bh != null" >
+        #{bh,jdbcType=VARCHAR},
+      </if>
+      <if test="js != null" >
+        #{js,jdbcType=VARCHAR},
+      </if>
+      <if test="mm != null" >
+        #{mm,jdbcType=VARCHAR},
+      </if>
+      <if test="xb != null" >
+        #{xb,jdbcType=VARCHAR},
+      </if>
+      <if test="xy != null" >
+        #{xy,jdbcType=VARCHAR},
+      </if>
+      <if test="shzt != null" >
+        #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="xxshyj != null" >
+        #{xxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        #{csrq,jdbcType=DATE},
+      </if>
+      <if test="zc != null" >
+        #{zc,jdbcType=VARCHAR},
+      </if>
+      <if test="zzxl != null" >
+        #{zzxl,jdbcType=VARCHAR},
+      </if>
+      <if test="zzxw != null" >
+        #{zzxw,jdbcType=VARCHAR},
+      </if>
+      <if test="byyx != null" >
+        #{byyx,jdbcType=VARCHAR},
+      </if>
+      <if test="sxzy != null" >
+        #{sxzy,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmm != null" >
+        #{zzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="yjfx != null" >
+        #{yjfx,jdbcType=VARCHAR},
+      </if>
+      <if test="zzzt != null" >
+        #{zzzt,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.TeacherExample" resultType="java.lang.Integer" >
+    select count(*) from teacher
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update teacher
+    <set >
+      <if test="record.teaid != null" >
+        teaid = #{record.teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xm != null" >
+        xm = #{record.xm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bh != null" >
+        bh = #{record.bh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.js != null" >
+        js = #{record.js,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mm != null" >
+        mm = #{record.mm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xb != null" >
+        xb = #{record.xb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xy != null" >
+        xy = #{record.xy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shzt != null" >
+        shzt = #{record.shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxshyj != null" >
+        xxshyj = #{record.xxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.csrq != null" >
+        csrq = #{record.csrq,jdbcType=DATE},
+      </if>
+      <if test="record.zc != null" >
+        zc = #{record.zc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzxl != null" >
+        zzxl = #{record.zzxl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzxw != null" >
+        zzxw = #{record.zzxw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.byyx != null" >
+        byyx = #{record.byyx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sxzy != null" >
+        sxzy = #{record.sxzy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzmm != null" >
+        zzmm = #{record.zzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjfx != null" >
+        yjfx = #{record.yjfx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zzzt != null" >
+        zzzt = #{record.zzzt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update teacher
+    set teaid = #{record.teaid,jdbcType=VARCHAR},
+      xm = #{record.xm,jdbcType=VARCHAR},
+      bh = #{record.bh,jdbcType=VARCHAR},
+      js = #{record.js,jdbcType=VARCHAR},
+      mm = #{record.mm,jdbcType=VARCHAR},
+      xb = #{record.xb,jdbcType=VARCHAR},
+      xy = #{record.xy,jdbcType=VARCHAR},
+      shzt = #{record.shzt,jdbcType=VARCHAR},
+      xxshyj = #{record.xxshyj,jdbcType=VARCHAR},
+      csrq = #{record.csrq,jdbcType=DATE},
+      zc = #{record.zc,jdbcType=VARCHAR},
+      zzxl = #{record.zzxl,jdbcType=VARCHAR},
+      zzxw = #{record.zzxw,jdbcType=VARCHAR},
+      byyx = #{record.byyx,jdbcType=VARCHAR},
+      sxzy = #{record.sxzy,jdbcType=VARCHAR},
+      zzmm = #{record.zzmm,jdbcType=VARCHAR},
+      yjfx = #{record.yjfx,jdbcType=VARCHAR},
+      zzzt = #{record.zzzt,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.Teacher" >
+    update teacher
+    <set >
+      <if test="xm != null" >
+        xm = #{xm,jdbcType=VARCHAR},
+      </if>
+      <if test="bh != null" >
+        bh = #{bh,jdbcType=VARCHAR},
+      </if>
+      <if test="js != null" >
+        js = #{js,jdbcType=VARCHAR},
+      </if>
+      <if test="mm != null" >
+        mm = #{mm,jdbcType=VARCHAR},
+      </if>
+      <if test="xb != null" >
+        xb = #{xb,jdbcType=VARCHAR},
+      </if>
+      <if test="xy != null" >
+        xy = #{xy,jdbcType=VARCHAR},
+      </if>
+      <if test="shzt != null" >
+        shzt = #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="xxshyj != null" >
+        xxshyj = #{xxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="csrq != null" >
+        csrq = #{csrq,jdbcType=DATE},
+      </if>
+      <if test="zc != null" >
+        zc = #{zc,jdbcType=VARCHAR},
+      </if>
+      <if test="zzxl != null" >
+        zzxl = #{zzxl,jdbcType=VARCHAR},
+      </if>
+      <if test="zzxw != null" >
+        zzxw = #{zzxw,jdbcType=VARCHAR},
+      </if>
+      <if test="byyx != null" >
+        byyx = #{byyx,jdbcType=VARCHAR},
+      </if>
+      <if test="sxzy != null" >
+        sxzy = #{sxzy,jdbcType=VARCHAR},
+      </if>
+      <if test="zzmm != null" >
+        zzmm = #{zzmm,jdbcType=VARCHAR},
+      </if>
+      <if test="yjfx != null" >
+        yjfx = #{yjfx,jdbcType=VARCHAR},
+      </if>
+      <if test="zzzt != null" >
+        zzzt = #{zzzt,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where teaid = #{teaid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.Teacher" >
+    update teacher
+    set xm = #{xm,jdbcType=VARCHAR},
+      bh = #{bh,jdbcType=VARCHAR},
+      js = #{js,jdbcType=VARCHAR},
+      mm = #{mm,jdbcType=VARCHAR},
+      xb = #{xb,jdbcType=VARCHAR},
+      xy = #{xy,jdbcType=VARCHAR},
+      shzt = #{shzt,jdbcType=VARCHAR},
+      xxshyj = #{xxshyj,jdbcType=VARCHAR},
+      csrq = #{csrq,jdbcType=DATE},
+      zc = #{zc,jdbcType=VARCHAR},
+      zzxl = #{zzxl,jdbcType=VARCHAR},
+      zzxw = #{zzxw,jdbcType=VARCHAR},
+      byyx = #{byyx,jdbcType=VARCHAR},
+      sxzy = #{sxzy,jdbcType=VARCHAR},
+      zzmm = #{zzmm,jdbcType=VARCHAR},
+      yjfx = #{yjfx,jdbcType=VARCHAR},
+      zzzt = #{zzzt,jdbcType=VARCHAR}
+    where teaid = #{teaid,jdbcType=VARCHAR}
+  </update>
+</mapper>

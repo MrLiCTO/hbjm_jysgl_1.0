@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.ProjectMapperCustom">
+
+	<sql id="project_query_where">
+		<if test="projectCustom!=null">
+			<if test="projectCustom.xmmc!=null and projectCustom.xmmc!=''">
+				and project.xmmc like '%${projectCustom.xmmc}%'
+			</if>
+			<if test="projectCustom.xmbh!=null and projectCustom.xmbh!=''">
+				and project.xmbh like '%${projectCustom.xmbh}%'
+			</if>
+			<if test="projectCustom.xmjb!=null and projectCustom.xmjb!=''">
+				and project.xmjb = #{projectCustom.xmjb}
+			</if>
+			<if test="projectCustom.pzdw!=null and projectCustom.pzdw!=''">
+				and project.pzdw like '%${projectCustom.pzdw}%'
+			</if>
+			<if test="projectCustom.xmlx!=null and projectCustom.xmlx!=''">
+				and project.xmlx = #{projectCustom.xmlb}
+			</if>
+			<if test="projectCustom.shzt!=null and projectCustom.shzt!=''">
+				and project.shzt = #{projectCustom.shzt}
+			</if>
+			<if test="projectCustom.lxsj_start!=null">
+				and project.lxsj > #{projectCustom.lxsj_start}
+			</if>
+			<if test="projectCustom.lxsj_end!=null">
+				and project.lxsj <![CDATA[ < ]]>
+				#{projectCustom.lxsj_end}
+			</if>
+			<if test="projectCustom.jxsj_start!=null">
+				and project.jxsj > #{projectCustom.jxsj_start}
+			</if>
+			<if test="projectCustom.jxsj_end!=null">
+				and project.jxsj <![CDATA[ < ]]>
+				#{projectCustom.jxsj_end}
+			</if>
+
+			
+
+		</if>
+		
+		<if test="teacherCustom!=null">
+			 <if test="teacherCustom.smwc!=null and teacherCustom.smwc!=''">
+ 		 			and tea_project.smwc = #{teacherCustom.smwc}
+ 		 	</if>
+		</if>
+
+	</sql>
+
+
+
+	<select id="findProjectList" resultType="com.shilong.jysgl.pojo.vo.ProjectCustom"
+		parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo">
+		select distinct
+		project.prid,project.xmmc,project.xmbh,project.xmjb,project.pzdw,project.xmlx,project.lxsj,project.jxsj,project.shzt,project.xxshyj,project.fj,
+		(select dictinfo from dictinfo where dictcode = project.xmjb) xmjbmc,
+		(select dictinfo from dictinfo where dictcode = project.xmlx) xmlxmc,
+		(select dictinfo from dictinfo where dictcode = project.shzt) shztmc
+
+		from project,tea_project,teacher
+		where teacher.teaid=tea_project.teaid and project.prid=tea_project.prid
+		<include refid="project_query_where" />
+		<include
+			refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	</select>
+
+
+	<select id="findProjectCount" resultType="int"
+		parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo">
+		select count(*) from (
+		select distinct project.prid from project,tea_project,teacher
+		where teacher.teaid=tea_project.teaid and project.prid=tea_project.prid
+		<include refid="project_query_where" />
+		<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		) pro
+	</select>
+
+
+
+	<select id="analysisProjectInfo" resultType="map"
+		parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo">
+		select
+		<if test="projectCustom!=null">
+			<if test="projectCustom.grp_by!=null and projectCustom.grp_by!=''">
+				
+				<if test="projectCustom.grp_by=='xmjb_gr'">
+					(select dictinfo from dictinfo where dictinfo.dictcode=pro.xmjb)
+				</if>
+				<if test="projectCustom.grp_by=='year_gr'">
+					year(pro.jxsj)
+				</if>
+				<if test="projectCustom.grp_by=='xmlx_gr'">
+					(select dictinfo from dictinfo where dictinfo.dictcode=pro.xmlx)
+				</if>
+			</if>
+		</if>
+
+		lable,count(*) data
+		from (
+		select distinct project.xmjb xmjb,project.jxsj jxsj,project.xmlx xmlx from project,tea_project,teacher
+		where teacher.teaid=tea_project.teaid and project.prid=tea_project.prid
+		<include refid="project_query_where" />
+		<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		) pro
+		group by lable
+	</select>
+
+	<select id="analysisTeaProInfo"  resultType="map"
+		parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo">
+		select (select dictinfo from dictinfo where dictinfo.dictcode=tea_project.smwc) lable,
+		count(*) data from project,tea_project,teacher where teacher.teaid=tea_project.teaid 
+		and project.prid=tea_project.prid
+		<include refid="project_query_where" />
+		<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		group by lable
+				
+	</select>
+
+
+
+	<!-- <select id="analysisProjectJbInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo" 
+		> select (select dictinfo from dictinfo where dictinfo.dictcode=project.xmjb) 
+		lable,count(*) from project,tea_project,teacher where teacher.teaid=tea_project.teaid 
+		and project.prid=tea_project.prid <include refid="project_query_where"/> 
+		<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where"/> 
+		group by lable </select> <select id="analysisProjectLxInfo" resultType="map" 
+		parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo" > select (select 
+		dictinfo from dictinfo where dictinfo.dictcode=project.xmlx) lable,count(*) 
+		from project,tea_project,teacher where teacher.teaid=tea_project.teaid and 
+		project.prid=tea_project.prid <include refid="project_query_where"/> <include 
+		refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where"/> 
+		group by lable </select> <select id="analysisProjectYearInfo" resultType="map" 
+		parameterType="com.shilong.jysgl.pojo.vo.ProjectQueryVo" > select year(project.jxsj) 
+		lable,count(*) from project,tea_project,teacher where teacher.teaid=tea_project.teaid 
+		and project.prid=tea_project.prid <include refid="project_query_where"/> 
+		<include refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where"/> 
+		group by lable </select> -->
+</mapper>

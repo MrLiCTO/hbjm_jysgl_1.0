@@ -1,0 +1,287 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="/WEB-INF/jsp/base/tag.jsp"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- 引用jquery easy ui的js库及css -->
+<LINK rel="stylesheet" type="text/css"
+	href="${baseurl}js/easyui/styles/default.css">
+<%@ include file="/WEB-INF/jsp/base/common_css.jsp"%>
+<%@ include file="/WEB-INF/jsp/base/common_js.jsp"%>
+<title>教师著作信息管理</title>
+
+<script type="text/javascript">
+
+		//采购药品删除
+		function bookdelete(){
+			_confirm('您确定要删除选择的著作信息吗?',null,
+					  function(){
+								
+						var indexs = [];//选择记录的序号
+						var rows = $('#booklist').datagrid('getSelections');
+						for(var i=0;i<rows.length;i++){
+							var index=$('#booklist').datagrid('getRowIndex',rows[i]);
+							indexs.push(index);
+						}
+						if(rows.length>0){
+							$("#indexs").val(indexs.join(','));
+							//由于删除和保存对同一个form进行操作，所以这里给yycgdmxForm的action重新赋值
+							$("#bookqueryForm").attr("action",'${baseurl}book/bookdelete_submit.action');
+							jquerySubByFId('bookqueryForm', bookdelete_callback, null);
+						}else{
+							alert_warn("请选择要删除的著作信息");
+						}
+					  }
+					)
+		}
+		function bookdelete_callback(data) {
+			var result = getCallbackData(data);
+			_alert(result);
+			queryawardtea();
+		}
+
+
+
+
+
+	//datagrid列定义
+	var columns_v = [ [{
+		checkbox:true
+	},{
+		field : 'bid',//对应json中的key
+		hidden : true,//隐藏
+		formatter: function(value,row,index){
+			return '<input type="hidden" name="bookCustoms['+index+'].bid" value="'+value+'" />';
+		}
+	},{
+		field : 'zzmc',//对应json中的key
+		title : '著作名称',
+		width : 180
+	},{
+		field : 'cbs',//对应json中的key
+		title : '出版社',
+		width : 180
+	}, {
+		field : 'cbsjstr',//对应json中的key
+		title : '出版时间 ',
+		width : 180
+	}, {
+		field : 'shztmc',//对应json中的key
+		title : '著作审核状态',
+		width : 150
+	}, {
+		field : 'teachers',//对应json中的key
+		title : '著作人员',
+		width : 180,
+		formatter: function(value,row,index){
+			var str="";
+			for(var i=0;i<value.length;i++){
+				str+=value[i].smwcmc+":"+value[i].xm+"</br>";
+			}
+			return str;
+		}
+	},{
+		field : 'opt1',//对应json中的key
+		title : '操作',
+		width : 180,
+		formatter : function(value, row, index) {//通过此方法格式化显示内容,value表示从json中取出该单元格的值，row表示这一行的数据，是一个对象,index:行的序号
+			return "<a href=javascript:deletebook('"+row.bid+"')>删除</a>&nbsp;&nbsp;&nbsp;<a href=javascript:editbook('"+row.bid+"')>编辑</a>"
+		}
+	} 
+	
+	
+	
+	] ];
+
+	//定义 datagird工具
+	var toolbar_v = [ {//工具栏
+		id : 'btnadd',
+		text : '添加',
+		iconCls : 'icon-add',
+		handler : function() {
+			//打开一个窗口，用户添加页面
+			//参数：窗口的title、宽、高、url地址
+			createmodalwindow("添加项目信息", 900, 400, '${baseurl}book/addbook.action');
+		}
+	},{
+		id : 'btndel',
+		text : '批量刪除',
+		iconCls : 'icon-remove',
+		handler : 'bookdelete'
+	}
+	];
+
+	//加载datagrid
+
+	$(function() {
+		$('#booklist').datagrid({
+			title : '著作信息查询',//数据列表标题
+			nowrap : true,//单元格中的数据不换行，如果为true表示不换行，不换行情况下数据加载性能高，如果为false就是换行，换行数据加载性能不高
+			striped : true,//条纹显示效果
+			url : '${baseurl}book/booklist_result.action',//加载数据的连接，引连接请求过来是json数据
+			idField : 'bid',//此字段很重要，数据结果集的唯一约束(重要)，如果写错影响 获取当前选中行的方法执行
+			loadMsg : '',
+			columns : columns_v,
+			pagination : true,//是否显示分页
+			rownumbers : true,//是否显示行号
+			checkbox:true,
+			pageList:[15,30,50],
+			toolbar : toolbar_v
+		});
+	});
+	
+	//查询方法
+	function querybook(){
+		//datagrid的方法load方法要求传入json数据，最终将 json转成key/value数据传入action
+		//将form表单数据提取出来，组成一个json
+		var formdata = $("#bookqueryForm").serializeJson();
+		$('#booklist').datagrid('load',formdata);
+	}
+	
+	//刪除用戶
+	function deletebook(bid){
+		//第一个参数是提示信息，第二个参数，取消执行的函数指针，第三个参是，确定执行的函数指针
+		_confirm('您确认删除吗？',null,function (){
+			//将要删除的id赋值给deleteid，deleteid在sysuserdeleteform中
+			$("#delete_id").val(bid);
+			//使用ajax的from提交执行删除
+			//sysuserdeleteform：form的id，userdel_callback：删除回调函数，
+			//第三个参数是url的参数
+			//第四个参数是datatype，表示服务器返回的类型
+			jquerySubByFId('bookdeleteform',deletebook_callback,null,"json");
+			
+			
+		});
+	}
+	
+	//删除用户的回调
+	function deletebook_callback(data){
+		message_alert(data);
+		//刷新 页面
+		//在提交成功后重新加载 datagrid
+		//取出提交结果
+		var type=data.resultInfo.type;
+		if(type==1){
+			//成功结果
+			//重新加载 datagrid
+			querybook();
+		}
+	}
+	
+	
+	//修改用戶
+	function editbook(bid){
+		//打开一个窗口，用户添加页面
+		//参数：窗口的title、宽、高、url地址
+		createmodalwindow("修改著作信息", 900, 400, '${baseurl}book/editbook.action?bid='+bid);
+	}
+</script>
+
+</head>
+<body>
+
+	<!-- html的静态布局 -->
+  <form id="bookqueryForm" method="post">
+  <input type="hidden" id="indexs" name="indexs"/>
+	<!-- 查询条件 -->
+	<TABLE  class="table_search">
+				<TBODY>
+					<TR>
+					<TD class="left"> 参与人编号：</td>
+						<td><input type="text" id="teabh" name="teacherCustom.bh"  value="${teacherCustom.bh}"/></TD>
+							<TD height=30 width="15%" align=right >出版社：</TD>
+								<td>
+								<input type="text" id="bookCustom.cbs" name="bookCustom.cbs"   value="${bookCustom.cbs}" />
+								</td>
+							
+								
+								
+						<TD height=30 width="15%" align=right >出版时间：</TD>
+								<TD class=category width="35%">
+								<INPUT id="bookCustom.cbsj_start"
+								name="bookCustom.cbsj_start"
+								onfocus="WdatePicker({isShowWeek:false,skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"
+								style="width: 80px" />
+								----
+								<INPUT id="bookCustom.cbsj_end"
+								name="bookCustom.cbsj_end"
+								onfocus="WdatePicker({isShowWeek:false,skin:'whyGreen',dateFmt:'yyyy-MM-dd'})"
+								style="width: 80px" />
+								</TD>
+								
+							
+								
+						
+					</TR>
+					<TR>
+					<!-- 自行添加 -->
+						<TD class="left">参与人姓名：</TD>
+						<td ><input type="text" id="teaxm" name="teacherCustom.xm"  value="${teacherCustom.xm}"/></td>
+
+					<TD height=30 width="15%" align=right>著作名称：</TD>
+					<td><input type="text" id="bookCustom.zzmc"
+						name="bookCustom.zzmc" value="${bookCustom.zzmc}" /></TD>
+					</TD>
+
+
+
+
+					<!-- 自行添加 -->
+						<TD height=30 width="15%" align=right >审核状态：</TD>
+						<td >
+						<select name="bookCustom.shzt" id="bookCustom.shzt">
+									
+						<option value="">请选择</option>
+						<c:forEach items="${shzt_info}" var="info">
+						<option value="${info.dictcode}"  <c:if test="${bookCustom.shzt==info.dictcode}">selected</c:if>>${info.dictinfo}</option>
+						</c:forEach>
+
+						</select>
+						</td>	
+				
+					
+						
+					</TR>
+					<tr>
+							<!-- 自行添加 -->
+								<TD class="left">署名位次：</TD>
+								<td >	
+								<select name="teacherCustom.smwc" id="teacherCustom.smwc" style="width: 80px" >
+											
+								<option value="">请选择</option>
+								<c:forEach items="${smwc_info}" var="info">
+								<option value="${info.dictcode}"  <c:if test="${teacherCustom.smwc==info.dictcode}">selected</c:if>>${info.dictinfo}</option>
+								</c:forEach>
+		
+								</select>
+								
+						
+					
+						<a id="btn" href="#" onclick="querybook()" class="easyui-linkbutton" iconCls='icon-search'>查询</a>
+				  		</td>
+					</tr>
+					
+				</TBODY>
+			</TABLE>
+
+	<!-- 查询列表 -->
+	<TABLE border=0 cellSpacing=0 cellPadding=0 width="99%" align=center>
+		<TBODY>
+			<TR>
+				<TD>
+					<table id="booklist"></table>
+				</TD>
+			</TR>
+		</TBODY>
+	</TABLE>
+</form>
+<form id="bookdeleteform" action="${baseurl}book/deletebook_submit.action" method="post">
+  <input type="hidden" id="delete_id" name="bid"/>
+</form>
+
+</body>
+</html>
+
+

@@ -1,0 +1,11 @@
+package com.shilong.jysgl.dao.custom.mapper;
+
+import java.util.List;
+
+import com.shilong.jysgl.pojo.vo.CourseGroupCustom;
+import com.shilong.jysgl.pojo.vo.CourseGroupQueryVo;
+
+public interface CoursegroupMapperCustom {
+	public List<CourseGroupCustom> findCourseList(CourseGroupQueryVo courseGroupQueryVo);
+	public int findCourseCount(CourseGroupQueryVo courseGroupQueryVo);
+}

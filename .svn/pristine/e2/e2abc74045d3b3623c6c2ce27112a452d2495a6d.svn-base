@@ -1,0 +1,68 @@
+package com.shilong.jysgl.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.shilong.jysgl.dao.culture.mapper.CoursegroupMapper;
+import com.shilong.jysgl.dao.custom.mapper.CoursegroupMapperCustom;
+import com.shilong.jysgl.pojo.po.Coursegroup;
+import com.shilong.jysgl.pojo.vo.CourseGroupCustom;
+import com.shilong.jysgl.pojo.vo.CourseGroupQueryVo;
+import com.shilong.jysgl.service.CourseGroupService;
+
+/**
+ *	@Descriptrion :
+ * 	@author mr-li
+ *	@Company www.shilong.com
+ *	@CreateDate 2015年12月16日
+ */
+public class CourseGroupServiceImpl implements CourseGroupService {
+
+	@Resource
+	private CoursegroupMapper courseGroupMapper;
+	@Resource
+	private CoursegroupMapperCustom courseGroupMapperCustom;
+
+	@Override
+	public void insertCourseGroup(CourseGroupQueryVo courseGroupGroupQueryVo) throws Exception {
+		
+
+	}
+
+
+	@Override
+	public void updateCourseGroup(String id, CourseGroupQueryVo courseGroupGroupQueryVo) throws Exception {
+		
+
+	}
+
+
+	@Override
+	public Coursegroup getCourseGroupById(String cid) throws Exception {
+	
+		return null;
+	}
+
+
+	@Override
+	public void deleteCourseGroupById(String cid) throws Exception {
+		
+
+	}
+
+	
+	@Override
+	public List<CourseGroupCustom> findCourseGroupList(CourseGroupQueryVo courseGroupQueryVo) throws Exception {
+		
+		return null;
+	}
+
+	
+	@Override
+	public int findCourseGroupCount(CourseGroupQueryVo courseGroupQueryVo) throws Exception {
+		
+		return 0;
+	}
+
+}

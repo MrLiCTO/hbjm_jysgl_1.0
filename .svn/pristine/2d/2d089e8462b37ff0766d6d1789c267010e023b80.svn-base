@@ -1,0 +1,114 @@
+package com.shilong.jysgl.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import com.shilong.jysgl.dao.culture.mapper.CoursegroupMapper;
+import com.shilong.jysgl.dao.custom.mapper.CoursegroupMapperCustom;
+import com.shilong.jysgl.pojo.po.Coursegroup;
+import com.shilong.jysgl.pojo.vo.CourseGroupCustom;
+import com.shilong.jysgl.pojo.vo.CourseGroupQueryVo;
+import com.shilong.jysgl.process.context.Config;
+import com.shilong.jysgl.process.result.ResultUtil;
+import com.shilong.jysgl.service.CourseGroupService;
+import com.shilong.jysgl.utils.UUIDBuild;
+
+/**
+ *	@Descriptrion :
+ * 	@author mr-li
+ *	@Company www.shilong.com
+ *	@CreateDate 2015年12月16日
+ */
+public class CourseGroupServiceImpl implements CourseGroupService {
+
+	@Resource
+	private CoursegroupMapper courseGroupMapper;
+	@Resource
+	private CoursegroupMapperCustom courseGroupMapperCustom;
+
+	@Override
+	public void insertCourseGroup(CourseGroupQueryVo courseGroupQueryVo) throws Exception {
+		
+		if(courseGroupQueryVo==null||courseGroupQueryVo.getCourseGroupCustom()==null){
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 901, null));
+		}
+		
+		CourseGroupCustom groupCustom = courseGroupQueryVo.getCourseGroupCustom();
+		
+		String kczmc = groupCustom.getKczmc();
+		
+		if(kczmc==null || kczmc.equals("")){
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 901, null));
+			
+		}
+		
+		Coursegroup cg=new Coursegroup();
+		
+		cg.setCgid(UUIDBuild.getUUID());
+		
+		cg.setKczmc(kczmc);
+		
+		courseGroupMapper.insert(cg);
+
+	}
+
+
+	@Override
+	public void updateCourseGroup(String id, CourseGroupQueryVo courseGroupQueryVo) throws Exception {
+		
+		if(courseGroupQueryVo==null ||//
+				courseGroupQueryVo.getCourseGroupCustom()==null ||//
+				courseGroupQueryVo.getCourseGroupCustom().getKczmc()==null||//
+				courseGroupQueryVo.getCourseGroupCustom().getKczmc().equals("")){//
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 901, null));
+		}
+		
+		Coursegroup coursegroup = courseGroupMapper.selectByPrimaryKey(id);
+		
+		if(coursegroup==null){
+			
+			ResultUtil.throwExcepion(ResultUtil.createFail(Config.MESSAGE, 901, null));
+		}
+		
+		coursegroup.setKczmc(courseGroupQueryVo.getCourseGroupCustom().getKczmc());
+		
+		courseGroupMapper.updateByPrimaryKey(coursegroup);
+		
+	}
+
+
+	@Override
+	public Coursegroup getCourseGroupById(String cgid) throws Exception {
+	
+		return courseGroupMapper.selectByPrimaryKey(cgid);
+	}
+
+
+	@Override
+	public void deleteCourseGroupById(String cgid) throws Exception {
+		courseGroupMapper.deleteByPrimaryKey(cgid);
+
+	}
+
+	
+	@Override
+	public List<CourseGroupCustom> findCourseGroupList(CourseGroupQueryVo courseGroupQueryVo) throws Exception {
+		
+		List<CourseGroupCustom> list = courseGroupMapperCustom.findCourseGroupList(courseGroupQueryVo);
+		
+		return list;
+	}
+
+	
+	@Override
+	public int findCourseGroupCount(CourseGroupQueryVo courseGroupQueryVo) throws Exception {
+		
+		int count = courseGroupMapperCustom.findCourseGroupCount(courseGroupQueryVo);
+		
+		return count;
+	}
+	
+	
+
+}

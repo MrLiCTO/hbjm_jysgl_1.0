@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.CourseMapperCustom">
+	<sql id="course_query_where">
+		<if test="courseCustom!=null">
+
+
+			<if test="courseCustom.kcmc != null and courseCustom.kcmc != ''">
+				and course.kcmc like '%${courseCustom.kcmc}%'
+			</if>
+			<if test="courseCustom.kch != null and courseCustom.kch != ''">
+				and course.kch like '%${courseCustom.kch}%'
+			</if>
+
+			<if
+				test="courseCustom.llks_start != null and courseCustom.llks_start != ''">
+				and course.llks > #{courseCustom.llks_start}
+			</if>
+			<if test="courseCustom.llks_end != null and courseCustom.llks_end != ''">
+				and course.llks <![CDATA[ < ]]>
+				#{courseCustom.llks_end}
+			</if>
+			<if
+				test="courseCustom.sjks_start != null and courseCustom.sjks_start != ''">
+				and course.sjks > #{courseCustom.sjks_start}
+			</if>
+			<if test="courseCustom.sjks_end != null and courseCustom.sjks_end != ''">
+				and course.sjks <![CDATA[ < ]]>
+				#{courseCustom.sjks_end}
+			</if>
+			<if test="courseCustom.zks_start != null and courseCustom.zks_start != ''">
+				and course.zks > #{courseCustom.zks_start}
+			</if>
+			<if test="courseCustom.zks_end != null and courseCustom.zks_end != ''">
+				and course.zks <![CDATA[ < ]]>
+				#{courseCustom.zks_end}
+			</if>
+			<if test="courseCustom.xf_start != null and courseCustom.xf_start != ''">
+				and course.xf > #{courseCustom.xf_start}
+			</if>
+			<if test="courseCustom.xf_end != null and courseCustom.xf_end != ''">
+				and course.xf <![CDATA[ < ]]>
+				#{courseCustom.xf_end}
+			</if>
+
+			<if test="courseCustom.sfsywlkt != null and courseCustom.sfsywlkt != ''">
+				and course.sfsywlkt = #{courseCustom.sfsywlkt}
+			</if>
+
+			<if test="courseCustom.sfsjpk != null and courseCustom.sfsjpk != ''">
+				and course.sfsjpk = #{courseCustom.sfsjpk}
+			</if>
+			<if test="courseCustom.jpkjb != null and courseCustom.jpkjb != ''">
+				and course.jpkjb = #{courseCustom.jpkjb}
+			</if>
+			<if test="courseCustom.lb != null and courseCustom.lb != ''">
+				and course.lb = #{courseCustom.lb}
+			</if>
+			<if test="courseCustom.kkxq != null and courseCustom.kkxq != ''">
+				and course.kkxq = #{courseCustom.kkxq}
+			</if>
+
+
+		</if>
+
+		<if test="teacherCustom!=null">
+
+			<if test="teacherCustom.xm!=null and teacherCustom.xm!=''">
+				and teacher.xm like '%${teacherCustom.xm}%'
+			</if>
+			<if test="teacherCustom.bh!=null and teacherCustom.bh!=''">
+				and teacher.bh like '%${teacherCustom.bh}%'
+			</if>
+		</if>
+	</sql>
+
+	<select id="findCourseList" resultType="com.shilong.jysgl.pojo.vo.CourseCustom"
+		parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+		SELECT distinct course.cid,course.kcmc,course.kch,course.lb,course.xf,
+		course.llks,course.sjks,course.zks,course.kkxq,course.sfsjpk,course.jpkjb,course.sfsywlkt,
+		(SELECT dictinfo FROM dictinfo WHERE course.lb = dictinfo.dictcode)
+		lbmc,
+		(SELECT dictinfo FROM dictinfo WHERE course.jpkjb = dictinfo.dictcode)
+		jpkjbmc
+		FROM course LEFT JOIN tea_cou ON course.cid=tea_cou.cid
+		LEFT JOIN teacher ON teacher.teaid=tea_cou.teaid
+		<where>
+			<include refid="course_query_where" />
+		</where>
+		<if test="pageQuery!=null">
+			<if
+				test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit
+				#{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	</select>
+
+
+	<select id="findCourseCount" resultType="int"
+		parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+		select count(*) from (SELECT course.cid
+		FROM course LEFT JOIN tea_cou ON course.cid=tea_cou.cid
+		LEFT JOIN teacher ON teacher.teaid=tea_cou.teaid
+		<where>
+			<include refid="course_query_where" />
+		</where>
+		)cou_
+	</select>
+
+
+	<select id="getAllTeas" resultType="com.shilong.jysgl.pojo.po.Teacher"
+		parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+
+		select teacher.teaid,teacher.bh,teacher.xm from teacher
+		where teacher.teaid not in (select tea_cou.teaid from tea_cou
+		where tea_cou.cid = #{courseCustom.cid}
+		)
+		<include refid="course_query_where" />
+		<if test="pageQuery!=null">
+			<if
+				test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit
+				#{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	</select>
+	<select id="getAllTeasCount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+
+		select count(*) from teacher
+		where teacher.teaid  not in (select tea_cou.teaid from tea_cou
+		
+		where tea_cou.cid = #{courseCustom.cid}
+				
+		)
+		<include refid="course_query_where" />
+	</select>
+	<select id="getTeasByCid" resultType="com.shilong.jysgl.pojo.po.Teacher"
+		parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+
+		select teacher.teaid,teacher.bh,teacher.xm from teacher
+		where teacher.teaid in (select tea_cou.teaid from tea_cou
+		where tea_cou.cid = #{courseCustom.cid}
+		)
+		<include refid="course_query_where" />
+		<if test="pageQuery!=null">
+			<if
+				test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit
+				#{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+	</select>
+	
+	
+	<select id="getTeasByCidcount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+
+		select count(*) from teacher
+		where teacher.teaid in (select tea_cou.teaid from tea_cou
+		
+		where tea_cou.cid = #{courseCustom.cid}
+				
+		)
+		<include refid="course_query_where" />
+	</select>
+
+
+</mapper>

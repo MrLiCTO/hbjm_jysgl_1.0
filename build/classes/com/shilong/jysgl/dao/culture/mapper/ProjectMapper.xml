@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.Project" >
+    <id column="prid" property="prid" jdbcType="VARCHAR" />
+    <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
+    <result column="xmbh" property="xmbh" jdbcType="VARCHAR" />
+    <result column="xmjb" property="xmjb" jdbcType="VARCHAR" />
+    <result column="pzdw" property="pzdw" jdbcType="VARCHAR" />
+    <result column="xmlx" property="xmlx" jdbcType="VARCHAR" />
+    <result column="lxsj" property="lxsj" jdbcType="DATE" />
+    <result column="jxsj" property="jxsj" jdbcType="DATE" />
+    <result column="shzt" property="shzt" jdbcType="VARCHAR" />
+    <result column="xxshyj" property="xxshyj" jdbcType="VARCHAR" />
+    <result column="fj" property="fj" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    prid, xmmc, xmbh, xmjb, pzdw, xmlx, lxsj, jxsj, shzt, xxshyj, fj
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.ProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where prid = #{prid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from project
+    where prid = #{prid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.ProjectExample" >
+    delete from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.Project" >
+    insert into project (prid, xmmc, xmbh, 
+      xmjb, pzdw, xmlx, lxsj, 
+      jxsj, shzt, xxshyj, fj
+      )
+    values (#{prid,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmbh,jdbcType=VARCHAR}, 
+      #{xmjb,jdbcType=VARCHAR}, #{pzdw,jdbcType=VARCHAR}, #{xmlx,jdbcType=VARCHAR}, #{lxsj,jdbcType=DATE}, 
+      #{jxsj,jdbcType=DATE}, #{shzt,jdbcType=VARCHAR}, #{xxshyj,jdbcType=VARCHAR}, #{fj,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.Project" >
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="prid != null" >
+        prid,
+      </if>
+      <if test="xmmc != null" >
+        xmmc,
+      </if>
+      <if test="xmbh != null" >
+        xmbh,
+      </if>
+      <if test="xmjb != null" >
+        xmjb,
+      </if>
+      <if test="pzdw != null" >
+        pzdw,
+      </if>
+      <if test="xmlx != null" >
+        xmlx,
+      </if>
+      <if test="lxsj != null" >
+        lxsj,
+      </if>
+      <if test="jxsj != null" >
+        jxsj,
+      </if>
+      <if test="shzt != null" >
+        shzt,
+      </if>
+      <if test="xxshyj != null" >
+        xxshyj,
+      </if>
+      <if test="fj != null" >
+        fj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="prid != null" >
+        #{prid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmbh != null" >
+        #{xmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="xmjb != null" >
+        #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="pzdw != null" >
+        #{pzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlx != null" >
+        #{xmlx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxsj != null" >
+        #{lxsj,jdbcType=DATE},
+      </if>
+      <if test="jxsj != null" >
+        #{jxsj,jdbcType=DATE},
+      </if>
+      <if test="shzt != null" >
+        #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="xxshyj != null" >
+        #{xxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="fj != null" >
+        #{fj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.ProjectExample" resultType="java.lang.Integer" >
+    select count(*) from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project
+    <set >
+      <if test="record.prid != null" >
+        prid = #{record.prid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null" >
+        xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmbh != null" >
+        xmbh = #{record.xmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmjb != null" >
+        xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pzdw != null" >
+        pzdw = #{record.pzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmlx != null" >
+        xmlx = #{record.xmlx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxsj != null" >
+        lxsj = #{record.lxsj,jdbcType=DATE},
+      </if>
+      <if test="record.jxsj != null" >
+        jxsj = #{record.jxsj,jdbcType=DATE},
+      </if>
+      <if test="record.shzt != null" >
+        shzt = #{record.shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xxshyj != null" >
+        xxshyj = #{record.xxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fj != null" >
+        fj = #{record.fj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project
+    set prid = #{record.prid,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      xmbh = #{record.xmbh,jdbcType=VARCHAR},
+      xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      pzdw = #{record.pzdw,jdbcType=VARCHAR},
+      xmlx = #{record.xmlx,jdbcType=VARCHAR},
+      lxsj = #{record.lxsj,jdbcType=DATE},
+      jxsj = #{record.jxsj,jdbcType=DATE},
+      shzt = #{record.shzt,jdbcType=VARCHAR},
+      xxshyj = #{record.xxshyj,jdbcType=VARCHAR},
+      fj = #{record.fj,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.Project" >
+    update project
+    <set >
+      <if test="xmmc != null" >
+        xmmc = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmbh != null" >
+        xmbh = #{xmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="xmjb != null" >
+        xmjb = #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="pzdw != null" >
+        pzdw = #{pzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlx != null" >
+        xmlx = #{xmlx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxsj != null" >
+        lxsj = #{lxsj,jdbcType=DATE},
+      </if>
+      <if test="jxsj != null" >
+        jxsj = #{jxsj,jdbcType=DATE},
+      </if>
+      <if test="shzt != null" >
+        shzt = #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="xxshyj != null" >
+        xxshyj = #{xxshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="fj != null" >
+        fj = #{fj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where prid = #{prid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.Project" >
+    update project
+    set xmmc = #{xmmc,jdbcType=VARCHAR},
+      xmbh = #{xmbh,jdbcType=VARCHAR},
+      xmjb = #{xmjb,jdbcType=VARCHAR},
+      pzdw = #{pzdw,jdbcType=VARCHAR},
+      xmlx = #{xmlx,jdbcType=VARCHAR},
+      lxsj = #{lxsj,jdbcType=DATE},
+      jxsj = #{jxsj,jdbcType=DATE},
+      shzt = #{shzt,jdbcType=VARCHAR},
+      xxshyj = #{xxshyj,jdbcType=VARCHAR},
+      fj = #{fj,jdbcType=VARCHAR}
+    where prid = #{prid,jdbcType=VARCHAR}
+  </update>
+</mapper>

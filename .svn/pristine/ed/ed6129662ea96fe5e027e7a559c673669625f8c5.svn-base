@@ -1,0 +1,38 @@
+package com.shilong.jysgl.action.cou;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.shilong.jysgl.process.result.DataGridResultInfo;
+import com.shilong.jysgl.service.CourseGroupService;
+
+/**
+ *	@Descriptrion :
+ * 	@author mr-li
+ *	@Company www.shilong.com
+ *	@CreateDate 2015年12月15日
+ */
+@Controller
+@RequestMapping("/coursegroup")
+public class CoursegroupAction {
+	
+	@Resource
+	private CourseGroupService courseGroupService;
+	
+	@RequestMapping("/coursegrouplist")
+	public String coursegrouplist()throws Exception{
+		return "/coursegroup/coursegrouplist";
+	}
+	
+	@RequestMapping("/coursegrouplist_result")
+	public @ResponseBody DataGridResultInfo coursegrouplist_result()throws Exception{
+		
+		DataGridResultInfo resultinfo=new DataGridResultInfo();
+		
+		return resultinfo;
+	}
+	
+}

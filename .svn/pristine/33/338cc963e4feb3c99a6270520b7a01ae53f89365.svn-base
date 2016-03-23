@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.SourcefileMapperCustom" >
+ 	
+ 	<sql id="sourceFile_query_where">
+ 		<if test="sourcefileCustom != null">
+ 			
+ 			<if test="sourcefileCustom.zywjmc != null and sourcefileCustom.zywjmc !=''">
+ 				and zywjmc like '%${sourcefileCustom.zywjmc}%'
+ 			</if>
+ 			<if test="sourcefileCustom.zywjlx != null and sourcefileCustom.zywjlx !=''">
+ 				and zywjlx = #{sourcefileCustom.zywjlx}
+ 			</if>
+ 			
+ 			<if test="sourcefileCustom.scsj_start != null and sourcefileCustom.scsj_start !=''">
+ 				and scsj > #{sourcefileCustom.scsj_start}
+ 			</if>
+ 			<if test="sourcefileCustom.scsj_end != null and sourcefileCustom.scsj_end !=''">
+ 				and scsj <![CDATA[ < ]]> #{sourcefileCustom.scsj_end}
+ 			</if>
+ 			
+ 			<if test="sourcefileCustom.cid != null and sourcefileCustom.cid !=''">
+ 				and sourcefile.cid = #{sourcefileCustom.cid}
+ 			</if>
+ 			<if test="sourcefileCustom.cid == null and sourcefileCustom.cid ==''">
+ 				and sourcefile.cid is null
+ 			</if>
+ 		</if>
+ 		
+ 		<if test="teacherCustom!=null">
+		
+			<if test="teacherCustom.xm!=null and teacherCustom.xm!=''">
+					and teaid in (select teaid from teacher where teacher.xm like '%${teacherCustom.xm}%') 
+			</if>
+			<if test="teacherCustom.bh!=null and teacherCustom.bh!=''">
+					and teaid in (select teaid from teacher where  teacher.bh like '%${teacherCustom.bh}%')
+			</if>
+		
+		</if>
+ 		
+ 	</sql>
+ 	
+ 	<select id="findSourceFileList" resultType="com.shilong.jysgl.pojo.vo.SourceFileCustom" parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+ 			
+ 			select sourcefile.sfid,sourcefile.teaid,sourcefile.zywjmc,sourcefile.zywjlx,
+ 			sourcefile.wjlj,sourcefile.wjdx,sourcefile.scsj,sourcefile.xzcs,
+ 			(select dictinfo from dictinfo where dictinfo.dictcode = sourcefile.zywjlx) zywjlxmc,
+ 			(select xm from Teacher where teacher.teaid=sourcefile.teaid) scrxm from sourcefile
+ 			<where>
+ 				<include refid="sourceFile_query_where"/>
+ 			</where>
+ 			<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+			</if>
+ 			
+ 			
+ 	</select>
+ 	
+ 	
+ 	<select id="findSourceFileCount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.CourseQueryVo">
+ 			
+ 			select count(*) from sourcefile
+ 			<where>
+ 				<include refid="sourceFile_query_where"/>
+ 			</where>
+ 			
+ 			
+ 	</select>
+</mapper>

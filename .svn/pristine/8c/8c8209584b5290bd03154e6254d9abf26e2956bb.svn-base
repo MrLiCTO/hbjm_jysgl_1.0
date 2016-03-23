@@ -1,0 +1,35 @@
+package com.shilong.jysgl.service;
+
+import java.util.List;
+
+import com.shilong.jysgl.pojo.po.Coursegroup;
+import com.shilong.jysgl.pojo.vo.CourseGroupCustom;
+import com.shilong.jysgl.pojo.vo.CourseGroupQueryVo;
+
+/**
+ *	@Descriptrion :
+ * 	@author mr-li
+ *	@Company www.shilong.com
+ *	@CreateDate 2015年12月16日
+ */
+public interface CourseGroupService {
+	/**
+	 * 添加课程组
+	 * @param courseGroupGroupQueryVo
+	 * @throws Exception
+	 */
+	public void insertCourseGroup(CourseGroupQueryVo courseGroupGroupQueryVo) throws Exception;
+	/**
+	 * 修改课程组
+	 * @param id
+	 * @param courseGroupGroupQueryVo
+	 * @throws Exception
+	 */
+	public void updateCourseGroup(String id,CourseGroupQueryVo courseGroupGroupQueryVo) throws Exception;//
+	public Coursegroup getCourseGroupById(String cid) throws Exception;//根据id查询课程组
+	public void deleteCourseGroupById(String cid) throws Exception;//根据id删除课程组
+
+	public List<CourseGroupCustom> findCourseGroupList(CourseGroupQueryVo courseGroupQueryVo) throws Exception;//课程组列表
+	public int findCourseGroupCount(CourseGroupQueryVo courseGroupQueryVo) throws Exception;//课程组列表
+	
+}

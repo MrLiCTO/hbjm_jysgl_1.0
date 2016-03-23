@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.SourcefileMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.Sourcefile" >
+    <id column="sfid" property="sfid" jdbcType="VARCHAR" />
+    <result column="teaid" property="teaid" jdbcType="VARCHAR" />
+    <result column="cid" property="cid" jdbcType="VARCHAR" />
+    <result column="zywjmc" property="zywjmc" jdbcType="VARCHAR" />
+    <result column="zywjlx" property="zywjlx" jdbcType="VARCHAR" />
+    <result column="wjlj" property="wjlj" jdbcType="VARCHAR" />
+    <result column="wjdx" property="wjdx" jdbcType="DECIMAL" />
+    <result column="scsj" property="scsj" jdbcType="DATE" />
+    <result column="xzcs" property="xzcs" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    sfid, teaid, cid, zywjmc, zywjlx, wjlj, wjdx, scsj, xzcs
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.SourcefileExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sourcefile
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sourcefile
+    where sfid = #{sfid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sourcefile
+    where sfid = #{sfid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.SourcefileExample" >
+    delete from sourcefile
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.Sourcefile" >
+    insert into sourcefile (sfid, teaid, cid, 
+      zywjmc, zywjlx, wjlj, 
+      wjdx, scsj, xzcs)
+    values (#{sfid,jdbcType=VARCHAR}, #{teaid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, 
+      #{zywjmc,jdbcType=VARCHAR}, #{zywjlx,jdbcType=VARCHAR}, #{wjlj,jdbcType=VARCHAR}, 
+      #{wjdx,jdbcType=DECIMAL}, #{scsj,jdbcType=DATE}, #{xzcs,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.Sourcefile" >
+    insert into sourcefile
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sfid != null" >
+        sfid,
+      </if>
+      <if test="teaid != null" >
+        teaid,
+      </if>
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="zywjmc != null" >
+        zywjmc,
+      </if>
+      <if test="zywjlx != null" >
+        zywjlx,
+      </if>
+      <if test="wjlj != null" >
+        wjlj,
+      </if>
+      <if test="wjdx != null" >
+        wjdx,
+      </if>
+      <if test="scsj != null" >
+        scsj,
+      </if>
+      <if test="xzcs != null" >
+        xzcs,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sfid != null" >
+        #{sfid,jdbcType=VARCHAR},
+      </if>
+      <if test="teaid != null" >
+        #{teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="zywjmc != null" >
+        #{zywjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zywjlx != null" >
+        #{zywjlx,jdbcType=VARCHAR},
+      </if>
+      <if test="wjlj != null" >
+        #{wjlj,jdbcType=VARCHAR},
+      </if>
+      <if test="wjdx != null" >
+        #{wjdx,jdbcType=DECIMAL},
+      </if>
+      <if test="scsj != null" >
+        #{scsj,jdbcType=DATE},
+      </if>
+      <if test="xzcs != null" >
+        #{xzcs,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.SourcefileExample" resultType="java.lang.Integer" >
+    select count(*) from sourcefile
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sourcefile
+    <set >
+      <if test="record.sfid != null" >
+        sfid = #{record.sfid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.teaid != null" >
+        teaid = #{record.teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cid != null" >
+        cid = #{record.cid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zywjmc != null" >
+        zywjmc = #{record.zywjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zywjlx != null" >
+        zywjlx = #{record.zywjlx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wjlj != null" >
+        wjlj = #{record.wjlj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wjdx != null" >
+        wjdx = #{record.wjdx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.scsj != null" >
+        scsj = #{record.scsj,jdbcType=DATE},
+      </if>
+      <if test="record.xzcs != null" >
+        xzcs = #{record.xzcs,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sourcefile
+    set sfid = #{record.sfid,jdbcType=VARCHAR},
+      teaid = #{record.teaid,jdbcType=VARCHAR},
+      cid = #{record.cid,jdbcType=VARCHAR},
+      zywjmc = #{record.zywjmc,jdbcType=VARCHAR},
+      zywjlx = #{record.zywjlx,jdbcType=VARCHAR},
+      wjlj = #{record.wjlj,jdbcType=VARCHAR},
+      wjdx = #{record.wjdx,jdbcType=DECIMAL},
+      scsj = #{record.scsj,jdbcType=DATE},
+      xzcs = #{record.xzcs,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.Sourcefile" >
+    update sourcefile
+    <set >
+      <if test="teaid != null" >
+        teaid = #{teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        cid = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="zywjmc != null" >
+        zywjmc = #{zywjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zywjlx != null" >
+        zywjlx = #{zywjlx,jdbcType=VARCHAR},
+      </if>
+      <if test="wjlj != null" >
+        wjlj = #{wjlj,jdbcType=VARCHAR},
+      </if>
+      <if test="wjdx != null" >
+        wjdx = #{wjdx,jdbcType=DECIMAL},
+      </if>
+      <if test="scsj != null" >
+        scsj = #{scsj,jdbcType=DATE},
+      </if>
+      <if test="xzcs != null" >
+        xzcs = #{xzcs,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where sfid = #{sfid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.Sourcefile" >
+    update sourcefile
+    set teaid = #{teaid,jdbcType=VARCHAR},
+      cid = #{cid,jdbcType=VARCHAR},
+      zywjmc = #{zywjmc,jdbcType=VARCHAR},
+      zywjlx = #{zywjlx,jdbcType=VARCHAR},
+      wjlj = #{wjlj,jdbcType=VARCHAR},
+      wjdx = #{wjdx,jdbcType=DECIMAL},
+      scsj = #{scsj,jdbcType=DATE},
+      xzcs = #{xzcs,jdbcType=DECIMAL}
+    where sfid = #{sfid,jdbcType=VARCHAR}
+  </update>
+</mapper>

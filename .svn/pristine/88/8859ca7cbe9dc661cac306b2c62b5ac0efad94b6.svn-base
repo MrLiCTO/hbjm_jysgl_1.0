@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.CoursegroupMapperCustom" >
+  	
+  	<resultMap type="com.shilong.jysgl.pojo.vo.CourseGroupCustom" id="cougr_resultmap">
+  		<id column="cgid" property="cgid"/>
+  		<result column="kczmc" property="kczmc"/>
+  		<result column="kczz" property="kczz"/>
+  		
+  		<collection property="teachers" column="teaid" ofType="com.shilong.jysgl.pojo.vo.TeacherCustom">
+  			<id column="teaid" property="teaid"/>
+  			<result column="xh" property="xh"/>
+  			<result column="xm" property="xm"/>
+  		</collection>
+  		
+  		<collection property="courses" column="cid" ofType="com.shilong.jysgl.pojo.vo.CourseCustom">
+  			<id column="cid" property="cid"/>
+  			<result column="kch" property="kch"/>
+  			<result column="kcmc" property="kcmc"/>
+  		</collection>
+  		
+  	</resultMap>
+  	
+  	<sql id="cougr_query_where">
+  		
+  		<if test="courseGroupCustom !=null">
+  			
+  		</if>
+  		
+  	</sql>
+
+	<select id="findCourseGroupList" resultMap="cougr_resultmap"
+		parameterType="com.shilong.jysgl.pojo.vo.CourseGroupQueryVo">
+
+		SELECT
+		coursegroup.cgid,
+		coursegroup.kczmc,
+		(SELECT
+		xm
+		FROM
+		teacher
+		WHERE teacher.teaid = coursegroup.kczz) kczz,
+		teacher.teaid,
+		teacher.bh,
+		teacher.xm,
+		course.cid,
+		course.kch,
+		course.kcmc
+		FROM
+		coursegroup
+		LEFT JOIN tea_gr
+		ON tea_gr.cgid = coursegroup.cgid
+		LEFT JOIN teacher
+		ON teacher.teaid = tea_gr.teaid
+		LEFT JOIN cou_gr
+		ON cou_gr.cgid = coursegroup.cgid
+		LEFT JOIN course
+		ON course.cid = cou_gr.cid
+		<where>
+		<include refid="cougr_query_where"/>
+		</where>
+
+	</select>
+
+	<select id="findCourseGroupCount" resultType="int"
+		parameterType="com.shilong.jysgl.pojo.vo.CourseGroupQueryVo">
+  		select count(*) from (SELECT distinct
+		coursegroup.cgid
+		FROM
+		coursegroup
+		LEFT JOIN tea_gr
+		ON tea_gr.cgid = coursegroup.cgid
+		LEFT JOIN teacher
+		ON teacher.teaid = tea_gr.teaid
+		LEFT JOIN cou_gr
+		ON cou_gr.cgid = coursegroup.cgid
+		LEFT JOIN course
+		ON course.cid = cou_gr.cid
+		<where>
+		<include refid="cougr_query_where"/>
+		</where>) cg_
+  	</select>
+  	
+</mapper>

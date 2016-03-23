@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.TeaPapersMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.TeaPapers" >
+    <id column="teaid" property="teaid" jdbcType="VARCHAR" />
+    <id column="paid" property="paid" jdbcType="VARCHAR" />
+    <result column="smwc" property="smwc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    teaid, paid, smwc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.TeaPapersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tea_papers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.TeaPapersKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from tea_papers
+    where teaid = #{teaid,jdbcType=VARCHAR}
+      and paid = #{paid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.TeaPapersKey" >
+    delete from tea_papers
+    where teaid = #{teaid,jdbcType=VARCHAR}
+      and paid = #{paid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.TeaPapersExample" >
+    delete from tea_papers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.TeaPapers" >
+    insert into tea_papers (teaid, paid, smwc
+      )
+    values (#{teaid,jdbcType=VARCHAR}, #{paid,jdbcType=VARCHAR}, #{smwc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.TeaPapers" >
+    insert into tea_papers
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teaid != null" >
+        teaid,
+      </if>
+      <if test="paid != null" >
+        paid,
+      </if>
+      <if test="smwc != null" >
+        smwc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teaid != null" >
+        #{teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="paid != null" >
+        #{paid,jdbcType=VARCHAR},
+      </if>
+      <if test="smwc != null" >
+        #{smwc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.TeaPapersExample" resultType="java.lang.Integer" >
+    select count(*) from tea_papers
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tea_papers
+    <set >
+      <if test="record.teaid != null" >
+        teaid = #{record.teaid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paid != null" >
+        paid = #{record.paid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.smwc != null" >
+        smwc = #{record.smwc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tea_papers
+    set teaid = #{record.teaid,jdbcType=VARCHAR},
+      paid = #{record.paid,jdbcType=VARCHAR},
+      smwc = #{record.smwc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.TeaPapers" >
+    update tea_papers
+    <set >
+      <if test="smwc != null" >
+        smwc = #{smwc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where teaid = #{teaid,jdbcType=VARCHAR}
+      and paid = #{paid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.TeaPapers" >
+    update tea_papers
+    set smwc = #{smwc,jdbcType=VARCHAR}
+    where teaid = #{teaid,jdbcType=VARCHAR}
+      and paid = #{paid,jdbcType=VARCHAR}
+  </update>
+</mapper>

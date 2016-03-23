@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.PaperMapperCustom" >
+ 		
+ 		<sql id="paper_query_where">
+ 			<if test="paperCustom!=null">
+ 				<if test="paperCustom.fbqkmc!=null and paperCustom.fbqkmc!=''">
+ 					and paper.fbqkmc like '%${paperCustom.fbqkmc}%'
+ 				</if>
+ 				<if test="paperCustom.lwtm!=null and paperCustom.lwtm!=''">
+ 					and paper.lwtm like '%${paperCustom.lwtm}%'
+ 				</if>
+ 				<if test="paperCustom.fbsj_start!=null">
+ 					and paper.fbsj > #{paperCustom.fbsj_start}
+ 				</if>
+ 				<if test="paperCustom.fbsj_end!=null">
+ 					and paper.fbsj <![CDATA[ < ]]> #{paperCustom.fbsj_end}
+ 				</if>
+ 				
+				<if test="paperCustom.shzt!=null and paperCustom.shzt!=''">
+					and paper.shzt = #{paperCustom.shzt}
+				</if>
+				<if test="paperCustom.lwdc!=null and paperCustom.lwdc!=''">
+					and paper.lwdc = #{paperCustom.lwdc}
+				</if>
+				<if test="paperCustom.jszk!=null and paperCustom.jszk!=''">
+					and paper.jszk = #{paperCustom.jszk}
+				</if>
+				<if test="paperCustom.lwlb!=null and paperCustom.lwlb!=''">
+					and paper.lwlb = #{paperCustom.lwlb}
+				</if>
+ 				
+ 			</if>
+ 			
+ 			<if test="teacherCustom!=null">
+			 <if test="teacherCustom.smwc!=null and teacherCustom.smwc!=''">
+ 		 			and tea_papers.smwc = #{teacherCustom.smwc}
+ 		 	</if>
+			</if>
+ 		</sql>
+	
+ 		
+ 		<select id="findPaperList" resultType="com.shilong.jysgl.pojo.vo.PaperCustom" parameterType="com.shilong.jysgl.pojo.vo.PaperQueryVo">
+ 			select distinct
+ 				paper.paid,paper.lwtm,paper.fbqkmc,paper.fbsj,
+ 				paper.shzt,paper.lwshyj,paper.lwdc,paper.lwlb,paper.fj,paper.jszk,
+ 				(select dictinfo from dictinfo where dictinfo.dictcode=paper.shzt) shztmc,
+ 				(select dictinfo from dictinfo where dictinfo.dictcode=paper.lwdc) lwdcmc,
+ 				(select dictinfo from dictinfo where dictinfo.dictcode=paper.jszk) jszkmc,
+ 				(select dictinfo from dictinfo where dictinfo.dictcode=paper.lwlb) lwlbmc
+ 				
+ 			 from paper,tea_papers,teacher
+			where
+			paper.paid=tea_papers.paid and teacher.teaid=tea_papers.teaid 
+ 			
+ 			<include refid="paper_query_where"/>
+ 			<include
+			refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+ 			
+ 			<if test="pageQuery!=null">
+			<if test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit #{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+			</if>
+ 		</select>
+ 		
+ 		<select id="findPaperCount" resultType="int" parameterType="com.shilong.jysgl.pojo.vo.PaperQueryVo">
+ 			select count(*) from (
+ 				select distinct paper.paid
+ 			 from paper,tea_papers,teacher
+			where
+			paper.paid=tea_papers.paid and teacher.teaid=tea_papers.teaid 
+ 			
+ 			<include refid="paper_query_where"/>
+ 			<include
+			refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+ 			) paper_
+ 		</select>
+ 		
+ 		<select id="analysisPaperInfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.PaperQueryVo">
+ 			select
+		<if test="paperCustom!=null">
+			<if test="paperCustom.grp_by!=null and paperCustom.grp_by!=''">
+				
+				<if test="paperCustom.grp_by=='lwdc_gr'">
+					(select dictinfo from dictinfo where dictinfo.dictcode=paper_t.lwdc)
+				</if>
+				<if test="paperCustom.grp_by=='year_gr'">
+					year(paper_t.fbsj)
+				</if>
+				<if test="paperCustom.grp_by=='lwlb_gr'">
+					(select dictinfo from dictinfo where dictinfo.dictcode=paper_t.lwlb)
+				</if>
+			</if>
+		</if>
+
+		lable,count(*) data
+		from (
+		select distinct paper.paid,paper.lwdc,paper.lwlb,paper.fbsj from paper,tea_papers,teacher
+			where
+			paper.paid=tea_papers.paid and teacher.teaid=tea_papers.teaid 
+ 			
+ 			<include refid="paper_query_where"/>
+ 			<include
+			refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+ 			) paper_t
+ 			
+ 		group by lable
+ 		</select>
+ 		
+ 		<select id="analysisPaperTeaInfo"  resultType="map" parameterType="com.shilong.jysgl.pojo.vo.PaperQueryVo">
+ 			select (select dictinfo from dictinfo where dictinfo.dictcode=tea_papers.smwc) lable,
+		count(*) data from paper,tea_papers,teacher
+			where
+			paper.paid=tea_papers.paid and teacher.teaid=tea_papers.teaid 
+ 			
+ 			<include refid="paper_query_where"/>
+ 			<include
+			refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		group by lable
+ 		</select>
+ 		
+</mapper>

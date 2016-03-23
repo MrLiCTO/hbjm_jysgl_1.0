@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.custom.mapper.StudentMapperCustom">
+
+	<sql id="query_stu_where">
+		<if test="studentCustom!=null">
+			<if test="studentCustom.xm != null and studentCustom.xm!=''">
+				and student.xm like '%${studentCustom.xm}%'
+			</if>
+			<if test="studentCustom.bh != null and studentCustom.bh !=''">
+				and student.bh like '%${studentCustom.bh}%'
+			</if>
+			<if test="studentCustom.bj != null and studentCustom.bj !=''">
+				and student.bj like '%${studentCustom.bj}%'
+			</if>
+			<if test="studentCustom.zy != null and studentCustom.zy !=''">
+				and student.zy like '%${studentCustom.zy}%'
+			</if>
+			<if test="studentCustom.dw != null and studentCustom.dw !=''">
+				and student.dw like '%${studentCustom.dw}%'
+			</if>
+			<if test="studentCustom.qq != null and studentCustom.qq !=''">
+				and student.qq like '%${studentCustom.qq}%'
+			</if>
+			<if test="studentCustom.phone != null and studentCustom.phone !=''">
+				and student.phone like '%${studentCustom.phone}%'
+			</if>
+			<if test="studentCustom.email != null and studentCustom.email !=''">
+				and student.email like '%${studentCustom.email}%'
+			</if>
+			<if test="studentCustom.xb != null and studentCustom.xb !=''">
+				and student.xb = #{studentCustom.xb}
+			</if>
+			<if test="studentCustom.xy != null and studentCustom.xy !=''">
+				and student.xy = #{studentCustom.xy}
+			</if>
+			<if test="studentCustom.xszt != null and studentCustom.xszt !=''">
+				and student.xszt = #{studentCustom.xszt}
+			</if>
+			
+			<if test="studentCustom.rxsj !=null and studentCustom.rxsj !=''">
+				and student.bh like '${studentCustom.rxsj}%'
+			</if>
+
+		</if>
+		
+		<if test="teacherCustom!=null">
+		
+			<if test="teacherCustom.xm!=null and teacherCustom.xm!=''">
+					and teacher.xm like '%${teacherCustom.xm}%'
+			</if>
+			<if test="teacherCustom.bh!=null and teacherCustom.bh!=''">
+					and teacher.bh like '%${teacherCustom.bh}%'
+			</if>
+		
+		</if>
+		
+	</sql>
+
+
+
+	<select id="findStuList" resultType="com.shilong.jysgl.pojo.vo.StudentCustom"
+		parameterType="com.shilong.jysgl.pojo.vo.StudentQueryVo">
+
+		select
+		student.stuid,student.teaid,
+		student.xm,student.xb,
+		student.bh,student.xy,student.bj,
+		student.xszt,student.zy,student.dw,
+		student.phone,student.qq,student.email,
+		teacher.xm teachermc,teacher.bh teacherbh,
+		(select dictinfo from dictinfo where dictinfo.dictcode = student.xb) xbmc,
+		(select dictinfo from dictinfo where dictinfo.dictcode = student.xy)
+		xymc,
+		(select dictinfo from dictinfo where dictinfo.dictcode = student.xszt) xsztmc
+		from student left outer join teacher on
+
+		student.teaid=teacher.teaid
+
+		<where>
+			<include refid="query_stu_where" />
+			<include
+				refid="com.shilong.jysgl.dao.custom.mapper.TeacherMapperCustom.query_teacher_where" />
+		</where>
+		<if test="pageQuery!=null">
+			<if
+				test="pageQuery.PageQuery_pageSize!=null and pageQuery.PageQuery_start!=null ">
+				limit
+				#{pageQuery.PageQuery_start},#{pageQuery.PageQuery_pageSize}
+			</if>
+		</if>
+
+	</select>
+
+
+	<select id="findStuCount" resultType="int"
+		parameterType="com.shilong.jysgl.pojo.vo.StudentQueryVo">
+
+		select count(*)
+		from student left outer join teacher on
+
+		student.teaid=teacher.teaid
+
+		<where>
+			<include refid="query_stu_where" />
+			
+		</where>
+
+
+	</select>
+	
+	<select id="analysisstudentinfo" resultType="map" parameterType="com.shilong.jysgl.pojo.vo.StudentQueryVo">
+			select (select dictinfo from dictinfo where dictinfo.dictcode = student.xszt) lable,count(*) data
+			
+			from student left outer join teacher on
+
+			student.teaid=teacher.teaid 
+			<where>
+			
+			<include refid="query_stu_where" />
+			
+			</where>
+			group by lable
+	
+	</select>
+	
+
+</mapper>

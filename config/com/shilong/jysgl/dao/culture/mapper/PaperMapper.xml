@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shilong.jysgl.dao.culture.mapper.PaperMapper" >
+  <resultMap id="BaseResultMap" type="com.shilong.jysgl.pojo.po.Paper" >
+    <id column="paid" property="paid" jdbcType="VARCHAR" />
+    <result column="lwtm" property="lwtm" jdbcType="VARCHAR" />
+    <result column="fbqkmc" property="fbqkmc" jdbcType="VARCHAR" />
+    <result column="fbsj" property="fbsj" jdbcType="DATE" />
+    <result column="shzt" property="shzt" jdbcType="VARCHAR" />
+    <result column="lwshyj" property="lwshyj" jdbcType="VARCHAR" />
+    <result column="lwdc" property="lwdc" jdbcType="VARCHAR" />
+    <result column="jszk" property="jszk" jdbcType="VARCHAR" />
+    <result column="lwlb" property="lwlb" jdbcType="VARCHAR" />
+    <result column="fj" property="fj" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    paid, lwtm, fbqkmc, fbsj, shzt, lwshyj, lwdc, jszk, lwlb, fj
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shilong.jysgl.pojo.po.PaperExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from paper
+    where paid = #{paid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from paper
+    where paid = #{paid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shilong.jysgl.pojo.po.PaperExample" >
+    delete from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shilong.jysgl.pojo.po.Paper" >
+    insert into paper (paid, lwtm, fbqkmc, 
+      fbsj, shzt, lwshyj, lwdc, 
+      jszk, lwlb, fj)
+    values (#{paid,jdbcType=VARCHAR}, #{lwtm,jdbcType=VARCHAR}, #{fbqkmc,jdbcType=VARCHAR}, 
+      #{fbsj,jdbcType=DATE}, #{shzt,jdbcType=VARCHAR}, #{lwshyj,jdbcType=VARCHAR}, #{lwdc,jdbcType=VARCHAR}, 
+      #{jszk,jdbcType=VARCHAR}, #{lwlb,jdbcType=VARCHAR}, #{fj,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shilong.jysgl.pojo.po.Paper" >
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paid != null" >
+        paid,
+      </if>
+      <if test="lwtm != null" >
+        lwtm,
+      </if>
+      <if test="fbqkmc != null" >
+        fbqkmc,
+      </if>
+      <if test="fbsj != null" >
+        fbsj,
+      </if>
+      <if test="shzt != null" >
+        shzt,
+      </if>
+      <if test="lwshyj != null" >
+        lwshyj,
+      </if>
+      <if test="lwdc != null" >
+        lwdc,
+      </if>
+      <if test="jszk != null" >
+        jszk,
+      </if>
+      <if test="lwlb != null" >
+        lwlb,
+      </if>
+      <if test="fj != null" >
+        fj,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paid != null" >
+        #{paid,jdbcType=VARCHAR},
+      </if>
+      <if test="lwtm != null" >
+        #{lwtm,jdbcType=VARCHAR},
+      </if>
+      <if test="fbqkmc != null" >
+        #{fbqkmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        #{fbsj,jdbcType=DATE},
+      </if>
+      <if test="shzt != null" >
+        #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="lwshyj != null" >
+        #{lwshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="lwdc != null" >
+        #{lwdc,jdbcType=VARCHAR},
+      </if>
+      <if test="jszk != null" >
+        #{jszk,jdbcType=VARCHAR},
+      </if>
+      <if test="lwlb != null" >
+        #{lwlb,jdbcType=VARCHAR},
+      </if>
+      <if test="fj != null" >
+        #{fj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shilong.jysgl.pojo.po.PaperExample" resultType="java.lang.Integer" >
+    select count(*) from paper
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update paper
+    <set >
+      <if test="record.paid != null" >
+        paid = #{record.paid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lwtm != null" >
+        lwtm = #{record.lwtm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbqkmc != null" >
+        fbqkmc = #{record.fbqkmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fbsj != null" >
+        fbsj = #{record.fbsj,jdbcType=DATE},
+      </if>
+      <if test="record.shzt != null" >
+        shzt = #{record.shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lwshyj != null" >
+        lwshyj = #{record.lwshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lwdc != null" >
+        lwdc = #{record.lwdc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jszk != null" >
+        jszk = #{record.jszk,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lwlb != null" >
+        lwlb = #{record.lwlb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fj != null" >
+        fj = #{record.fj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update paper
+    set paid = #{record.paid,jdbcType=VARCHAR},
+      lwtm = #{record.lwtm,jdbcType=VARCHAR},
+      fbqkmc = #{record.fbqkmc,jdbcType=VARCHAR},
+      fbsj = #{record.fbsj,jdbcType=DATE},
+      shzt = #{record.shzt,jdbcType=VARCHAR},
+      lwshyj = #{record.lwshyj,jdbcType=VARCHAR},
+      lwdc = #{record.lwdc,jdbcType=VARCHAR},
+      jszk = #{record.jszk,jdbcType=VARCHAR},
+      lwlb = #{record.lwlb,jdbcType=VARCHAR},
+      fj = #{record.fj,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shilong.jysgl.pojo.po.Paper" >
+    update paper
+    <set >
+      <if test="lwtm != null" >
+        lwtm = #{lwtm,jdbcType=VARCHAR},
+      </if>
+      <if test="fbqkmc != null" >
+        fbqkmc = #{fbqkmc,jdbcType=VARCHAR},
+      </if>
+      <if test="fbsj != null" >
+        fbsj = #{fbsj,jdbcType=DATE},
+      </if>
+      <if test="shzt != null" >
+        shzt = #{shzt,jdbcType=VARCHAR},
+      </if>
+      <if test="lwshyj != null" >
+        lwshyj = #{lwshyj,jdbcType=VARCHAR},
+      </if>
+      <if test="lwdc != null" >
+        lwdc = #{lwdc,jdbcType=VARCHAR},
+      </if>
+      <if test="jszk != null" >
+        jszk = #{jszk,jdbcType=VARCHAR},
+      </if>
+      <if test="lwlb != null" >
+        lwlb = #{lwlb,jdbcType=VARCHAR},
+      </if>
+      <if test="fj != null" >
+        fj = #{fj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where paid = #{paid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shilong.jysgl.pojo.po.Paper" >
+    update paper
+    set lwtm = #{lwtm,jdbcType=VARCHAR},
+      fbqkmc = #{fbqkmc,jdbcType=VARCHAR},
+      fbsj = #{fbsj,jdbcType=DATE},
+      shzt = #{shzt,jdbcType=VARCHAR},
+      lwshyj = #{lwshyj,jdbcType=VARCHAR},
+      lwdc = #{lwdc,jdbcType=VARCHAR},
+      jszk = #{jszk,jdbcType=VARCHAR},
+      lwlb = #{lwlb,jdbcType=VARCHAR},
+      fj = #{fj,jdbcType=VARCHAR}
+    where paid = #{paid,jdbcType=VARCHAR}
+  </update>
+</mapper>
